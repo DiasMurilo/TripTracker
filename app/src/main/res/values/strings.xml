@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">TripTracker</string>
+    <string name="email">EMAIL</string>
+    <string name="password">PASSWORD</string>
+    <string name="login">LOGIN</string>
+    <string name="register">REGISTER</string>
+    <string name="name">Name</string>
+    <string name="company">Company</string>
+    <string name="car_ref">Car Ref.</string>
+    <string name="kml">km/l</string>
+    <string name="fuel">Fuel</string>
+    <string name="cancel">CANCEL</string>
+    <string name="back">BACK</string>
+    <string name="save">SAVE</string>
+    <string name="font_size1">\@18sp</string>
 </resources>
