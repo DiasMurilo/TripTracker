@@ -13,4 +13,18 @@
     <string name="back">BACK</string>
     <string name="save">SAVE</string>
     <string name="font_size1">\@18sp</string>
+    <string name="trip_tracker">TRIP TRACKER</string>
+    <string name="settings">PLEASE ENTER OR ALTER YOUR DATA</string>
+    <string name="textview">TextView</string>
+    <string name="button_tracktrip">TRACK A TRIP</string>
+    <string name="button_add_expense">ADD TRIP EXPENSE</string>
+    <string name="button_settings">SETTINGS</string>
+    <string name="button_report">SEND A REPORT</string>
+    <string name="button_logout">LOGOUT</string>
+    <string name="confirm_data">CONFIRM YOUR DATA BEFORE START</string>
+    <string name="reason">Reason</string>
+    <string name="destiny">Destiny</string>
+    <string name="settings_note">Notes:</string>
+    <string name="settings_note1">1. Those data will be included in your report.</string>
+    <string name="settings_note2">2. You can alter that at any moment.</string>
 </resources>

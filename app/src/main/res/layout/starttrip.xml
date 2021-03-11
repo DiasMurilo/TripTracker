@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/back">
+
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="323dp"
+        android:layout_height="57dp"
+        android:layout_marginTop="25dp"
+        android:text="@string/confirm_data"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="109dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="26dp"
+        android:text="@string/reason"
+        android:textColor="@color/colorPrimary"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="109dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/destiny"
+        android:textColor="@color/colorPrimary"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/field_Reason" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="109dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="56dp"
+        android:text="@string/name"
+        android:textColor="@color/colorPrimary"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/field_Destiny" />
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="109dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="16dp"
+        android:text="@string/company"
+        android:textColor="@color/colorPrimary"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+
+    <TextView
+        android:id="@+id/textCompany"
+        android:layout_width="234dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="26dp"
+        android:text="@string/company"
+        android:textColor="@color/colorPrimary"
+        android:textSize="24sp"
+        app:layout_constraintStart_toEndOf="@+id/textView16"
+        app:layout_constraintTop_toBottomOf="@+id/textName" />
+
+    <TextView
+        android:id="@+id/textCarRef"
+        android:layout_width="234dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="26dp"
+        android:text="@string/car_ref"
+        android:textColor="@color/colorPrimary"
+        android:textSize="24sp"
+        app:layout_constraintStart_toEndOf="@+id/textView17"
+        app:layout_constraintTop_toBottomOf="@+id/textCompany" />
+
+    <TextView
+        android:id="@+id/textkml"
+        android:layout_width="234dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="26dp"
+        android:text="@string/kml"
+        android:textColor="@color/colorPrimary"
+        android:textSize="24sp"
+        app:layout_constraintStart_toEndOf="@+id/textView18"
+        app:layout_constraintTop_toBottomOf="@+id/textCarRef" />
+
+    <TextView
+        android:id="@+id/textName"
+        android:layout_width="234dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="56dp"
+        android:text="@string/name"
+        android:textColor="@color/colorPrimary"
+        android:textSize="24sp"
+        app:layout_constraintStart_toEndOf="@+id/textView15"
+        app:layout_constraintTop_toBottomOf="@+id/field_Destiny" />
+
+    <TextView
+        android:id="@+id/textFuel"
+        android:layout_width="234dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="26dp"
+        android:text="@string/fuel"
+        android:textColor="@color/colorPrimary"
+        android:textSize="24sp"
+        app:layout_constraintStart_toEndOf="@+id/textView19"
+        app:layout_constraintTop_toBottomOf="@+id/textkml" />
+
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="109dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="16dp"
+        android:text="@string/car_ref"
+        android:textColor="@color/colorPrimary"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView16" />
+
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="109dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="16dp"
+        android:text="@string/kml"
+        android:textColor="@color/colorPrimary"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView17" />
+
+    <TextView
+        android:id="@+id/textView19"
+        android:layout_width="109dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="16dp"
+        android:text="@string/fuel"
+        android:textColor="@color/colorPrimary"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView18" />
+
+    <EditText
+        android:id="@+id/field_Reason"
+        android:layout_width="280dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="26dp"
+        android:layout_marginEnd="4dp"
+        android:autofillHints=""
+        android:background="@color/colorButton"
+        android:cursorVisible="true"
+        android:ems="10"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
+        android:isScrollContainer="false"
+        android:shadowColor="@color/colorShadow"
+        android:textAlignment="textStart"
+        android:textColor="@color/colorSecundary"
+        android:textColorHint="@color/colorButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView11"
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+    <EditText
+        android:id="@+id/field_Destiny"
+        android:layout_width="280dp"
+        android:layout_height="96dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="4dp"
+        android:autofillHints=""
+        android:background="@color/colorButton"
+        android:cursorVisible="true"
+        android:ems="10"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
+        android:isScrollContainer="false"
+        android:shadowColor="@color/colorShadow"
+        android:textAlignment="textStart"
+        android:textColor="@color/colorSecundary"
+        android:textColorHint="@color/colorButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView6"
+        app:layout_constraintTop_toBottomOf="@+id/field_Reason" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
