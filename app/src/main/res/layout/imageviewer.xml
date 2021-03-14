@@ -8,7 +8,7 @@
     android:background="@drawable/back">
 
     <Button
-        android:id="@+id/cancel_imageviewer"
+        android:id="@+id/cancelImageViewer"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/camera_imageviewer"
+        android:id="@+id/cameraImageViewer"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -28,11 +28,11 @@
         android:backgroundTint="@color/colorButton"
         android:text="@string/camera"
         android:textColor="@color/colorPrimary"
-        app:layout_constraintStart_toEndOf="@+id/cancel_imageviewer"
+        app:layout_constraintStart_toEndOf="@+id/cancelImageViewer"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/save_imageviewer"
+        android:id="@+id/startBefore"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -40,7 +40,7 @@
         android:backgroundTint="@color/colorButton"
         android:text="@string/save"
         android:textColor="@color/colorPrimary"
-        app:layout_constraintStart_toEndOf="@+id/camera_imageviewer"
+        app:layout_constraintStart_toEndOf="@+id/cameraImageViewer"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView

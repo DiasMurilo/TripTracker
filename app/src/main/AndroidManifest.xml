@@ -13,12 +13,51 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-
             </intent-filter>
         </activity>
         <activity android:name=".home">
+        <intent-filter>
+            <action android:name="android.intent.action.home" />
+        </intent-filter>
+        </activity>
+        <activity android:name=".imageviewer">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.imageviewer" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".reportviewer">
+            <intent-filter>
+                <action android:name="android.intent.action.reportviewer" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".selectdate">
+            <intent-filter>
+                <action android:name="android.intent.action.selectdate" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".selecttrip">
+            <intent-filter>
+                <action android:name="android.intent.action.selecttrip" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".settings">
+            <intent-filter>
+                <category android:name="android.intent.category.settings" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".starttrip">
+            <intent-filter>
+                <category android:name="android.intent.category.starttrip" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".trackingtrip">
+            <intent-filter>
+                <action android:name="android.intent.action.trackingtrip" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".tripfinish">
+            <intent-filter>
+                <action android:name="android.intent.action.tripfinish" />
             </intent-filter>
         </activity>
     </application>

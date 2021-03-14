@@ -28,8 +28,8 @@ public class home extends AppCompatActivity {
             public void onClick(View view){
                 Toast.makeText(getApplicationContext(), "Confirm your data before start",
                         Toast.LENGTH_SHORT).show();
-                //Intent homescreen = new Intent(home.this, MainActivity.class);
-                //startActivity(homescreen);
+                Intent starttrip = new Intent(home.this, starttrip.class);
+                startActivity(starttrip);
                 // Call 4_START_TRIP
             }
         });
@@ -39,19 +39,19 @@ public class home extends AppCompatActivity {
             public void onClick(View view){
                 Toast.makeText(getApplicationContext(), "Select a Trip to add",
                         Toast.LENGTH_SHORT).show();
-                //Intent homescreen = new Intent(home.this, MainActivity.class);
-                //startActivity(homescreen);
+                Intent expensescreen = new Intent(home.this, selecttrip.class);
+                startActivity(expensescreen);
                 // Call 7_SELECT_TRIP
             }
         });
 
-        mButtonSettings.setOnClickListener(new View.OnClickListener(){
+       mButtonSettings.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
                 Toast.makeText(getApplicationContext(), "Settings",
                         Toast.LENGTH_SHORT).show();
-                //Intent homescreen = new Intent(home.this, MainActivity.class);
-                //startActivity(homescreen);
+                Intent settingsscreen = new Intent(home.this, settings.class);
+                startActivity(settingsscreen);
                 // Call 7_SELECT_TRIP
             }
         });
@@ -61,8 +61,8 @@ public class home extends AppCompatActivity {
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(),"Select Dates",
                         Toast.LENGTH_LONG).show();
-                //Intent homescreen = new Intent(home.this, MainActivity.class);
-                //startActivity(homescreen);
+                Intent reportscreen = new Intent(home.this, selectdate.class);
+                startActivity(reportscreen);
                 // Call 9_SELECT_DATE
             }
         });

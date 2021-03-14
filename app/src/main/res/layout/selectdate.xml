@@ -9,7 +9,7 @@
 
 
     <Button
-        android:id="@+id/cancel_selectdate"
+        android:id="@+id/cancelSelectDate"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/report_selectdate"
+        android:id="@+id/reportSelectDate"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="129dp"
@@ -29,7 +29,7 @@
         android:backgroundTint="@color/colorButton"
         android:text="@string/report"
         android:textColor="@color/colorPrimary"
-        app:layout_constraintStart_toEndOf="@+id/cancel_selectdate"
+        app:layout_constraintStart_toEndOf="@+id/cancelSelectDate"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView

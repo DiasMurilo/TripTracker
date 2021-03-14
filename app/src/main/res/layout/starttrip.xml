@@ -9,7 +9,7 @@
 
 
     <Button
-        android:id="@+id/cancel_before"
+        android:id="@+id/cancelBefore"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -21,27 +21,27 @@
         app:layout_constraintTop_toBottomOf="@+id/textView19" />
 
     <Button
-        android:id="@+id/camera_imageviewer"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
+        android:id="@+id/bostaPreta"
+        android:layout_width="128dp"
+        android:layout_height="46dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="36dp"
         android:backgroundTint="@color/colorButton"
-        android:text="@string/back"
+        android:text="@string/button_settings"
         android:textColor="@color/colorPrimary"
-        app:layout_constraintStart_toEndOf="@+id/cancel_before"
+        app:layout_constraintStart_toEndOf="@+id/cancelBefore"
         app:layout_constraintTop_toBottomOf="@+id/textView19" />
 
     <Button
-        android:id="@+id/save_imageviewer"
+        android:id="@+id/startBefore"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="36dp"
         android:backgroundTint="@color/colorButton"
-        android:text="@string/save"
+        android:text="@string/start"
         android:textColor="@color/colorPrimary"
-        app:layout_constraintStart_toEndOf="@+id/camera_imageviewer"
+        app:layout_constraintStart_toEndOf="@+id/bostaPreta"
         app:layout_constraintTop_toBottomOf="@+id/textView19" />
 
     <TextView
