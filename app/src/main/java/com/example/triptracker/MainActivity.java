@@ -3,6 +3,7 @@ package com.example.triptracker;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -30,11 +31,12 @@ public class MainActivity extends AppCompatActivity {
         mButtonLogin = findViewById(R.id.buttonLogin);
 
         mButtonLogin.setOnClickListener(new View.OnClickListener(){
-
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Authentication failed.",
+                Toast.makeText(getApplicationContext(), "Login Successful",
                         Toast.LENGTH_SHORT).show();
+               Intent homescreen = new Intent(MainActivity.this, home.class);
+               startActivity(homescreen);
             }
         });
 
