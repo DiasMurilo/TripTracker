@@ -19,7 +19,7 @@ public class starttrip extends AppCompatActivity {
 
 
         mCancelBefore = findViewById(R.id.cancelBefore);
-        mSettingsBefore = findViewById(R.id.bostaPreta);
+        mSettingsBefore = findViewById(R.id.settingsBefore);
         mStartBefore = findViewById(R.id.startBefore);
 
         mSettingsBefore.setOnClickListener(new View.OnClickListener() {
@@ -38,8 +38,8 @@ public class starttrip extends AppCompatActivity {
             public void onClick(View view){
                 Toast.makeText(getApplicationContext(), "Action Canceled",
                         Toast.LENGTH_SHORT).show();
-                Intent starttriptohome = new Intent(starttrip.this, home.class);
-                startActivity(starttriptohome);
+                Intent startTripToHome = new Intent(starttrip.this, home.class);
+                startActivity(startTripToHome);
                 // Call 3_HOME
             }
         });
@@ -49,8 +49,8 @@ public class starttrip extends AppCompatActivity {
             public void onClick(View view){
                 Toast.makeText(getApplicationContext(), "Starting Trip",
                         Toast.LENGTH_SHORT).show();
-                Intent starttriptotrip = new Intent(starttrip.this, trackingtrip.class);
-                startActivity(starttriptotrip);
+                Intent startTripToTrip = new Intent(starttrip.this, trackingtrip.class);
+                startActivity(startTripToTrip);
                 // Call 5_TRACKING_TRIP
             }
         });

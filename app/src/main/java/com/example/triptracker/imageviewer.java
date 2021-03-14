@@ -24,8 +24,8 @@ public class imageviewer extends AppCompatActivity {
             public void onClick(View view){
                 Toast.makeText(getApplicationContext(), "Action Canceled",
                         Toast.LENGTH_SHORT).show();
-                Intent homeScreen = new Intent(imageviewer.this, home.class);
-                startActivity(homeScreen);
+                Intent imageViewerToHome = new Intent(imageviewer.this, home.class);
+                startActivity(imageViewerToHome);
                 // Call 3_HOME
             }
         });

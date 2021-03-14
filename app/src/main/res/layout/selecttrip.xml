@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/cancel_select_trip"
+        android:id="@+id/cancelSelectTrip"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"

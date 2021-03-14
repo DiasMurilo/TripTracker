@@ -35,8 +35,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(), "Login Successful",
                         Toast.LENGTH_SHORT).show();
-               Intent homescreen = new Intent(MainActivity.this, home.class);
-               startActivity(homescreen);
+               Intent mainLogin = new Intent(MainActivity.this, home.class);
+               startActivity(mainLogin);
             }
         });
 

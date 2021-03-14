@@ -28,8 +28,8 @@ public class home extends AppCompatActivity {
             public void onClick(View view){
                 Toast.makeText(getApplicationContext(), "Confirm your data before start",
                         Toast.LENGTH_SHORT).show();
-                Intent starttrip = new Intent(home.this, starttrip.class);
-                startActivity(starttrip);
+                Intent homeToStartTrip = new Intent(home.this, starttrip.class);
+                startActivity(homeToStartTrip);
                 // Call 4_START_TRIP
             }
         });
@@ -39,8 +39,8 @@ public class home extends AppCompatActivity {
             public void onClick(View view){
                 Toast.makeText(getApplicationContext(), "Select a Trip to add",
                         Toast.LENGTH_SHORT).show();
-                Intent expensescreen = new Intent(home.this, selecttrip.class);
-                startActivity(expensescreen);
+                Intent homeToSelectDate = new Intent(home.this, selecttrip.class);
+                startActivity(homeToSelectDate);
                 // Call 7_SELECT_TRIP
             }
         });
@@ -50,8 +50,8 @@ public class home extends AppCompatActivity {
             public void onClick(View view){
                 Toast.makeText(getApplicationContext(), "Settings",
                         Toast.LENGTH_SHORT).show();
-                Intent settingsscreen = new Intent(home.this, settings.class);
-                startActivity(settingsscreen);
+                Intent homeToSettings = new Intent(home.this, settings.class);
+                startActivity(homeToSettings);
                 // Call 7_SELECT_TRIP
             }
         });
@@ -61,8 +61,8 @@ public class home extends AppCompatActivity {
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(),"Select Dates",
                         Toast.LENGTH_LONG).show();
-                Intent reportscreen = new Intent(home.this, selectdate.class);
-                startActivity(reportscreen);
+                Intent homeToReport = new Intent(home.this, selectdate.class);
+                startActivity(homeToReport);
                 // Call 9_SELECT_DATE
             }
         });
@@ -72,8 +72,8 @@ public class home extends AppCompatActivity {
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(), "Logout",
                         Toast.LENGTH_SHORT).show();
-                Intent homescreen = new Intent(home.this, MainActivity.class);
-                startActivity(homescreen);
+                Intent homeLogout = new Intent(home.this, MainActivity.class);
+                startActivity(homeLogout);
                 // close connection and any life cicle need
             }
         });

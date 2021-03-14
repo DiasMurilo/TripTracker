@@ -10,22 +10,34 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class settings extends AppCompatActivity {
 
-    Button mCancelSet;
+    Button mCancelSettings, mSaveSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings);
 
-        mCancelSet = findViewById(R.id.cancelImageViewer);
+        mCancelSettings = findViewById(R.id.cancelSettings);
+        mSaveSettings = findViewById(R.id.saveSettings);
 
-        mCancelSet.setOnClickListener(new View.OnClickListener() {
+        mCancelSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
                 Toast.makeText(getApplicationContext(), "Action Canceled",
                         Toast.LENGTH_SHORT).show();
-                Intent settingsToHomeScreen = new Intent(settings.this, home.class);
-                startActivity(settingsToHomeScreen);
+                Intent cancelSettingsToHomeScreen = new Intent(settings.this, home.class);
+                startActivity(cancelSettingsToHomeScreen);
+                // Call 3_HOME
+            }
+        });
+
+        mSaveSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                Toast.makeText(getApplicationContext(), "Settings Saved",
+                        Toast.LENGTH_SHORT).show();
+                Intent saveSettingsToHomeScreen = new Intent(settings.this, home.class);
+                startActivity(saveSettingsToHomeScreen);
                 // Call 3_HOME
             }
         });
