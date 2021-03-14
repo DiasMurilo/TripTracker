@@ -8,10 +8,10 @@
     android:background="@drawable/back">
 
     <Button
-        android:id="@+id/cancel_imageviewer"
+        android:id="@+id/cancel_reportviewer"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="536dp"
         android:backgroundTint="@color/colorButton"
         android:text="@string/cancel"
@@ -20,29 +20,15 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/save_finish"
+        android:id="@+id/send_reportviewer"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="272dp"
+        android:layout_marginStart="129dp"
         android:layout_marginTop="536dp"
         android:backgroundTint="@color/colorButton"
-        android:text="@string/finish"
+        android:text="@string/send"
         android:textColor="@color/colorPrimary"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="318dp"
-        android:layout_height="32dp"
-        android:layout_marginTop="25dp"
-        android:text="@string/trackingtrip"
-        android:textAlignment="center"
-        android:textColor="@color/colorPrimary"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/cancel_reportviewer"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
