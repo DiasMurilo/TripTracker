@@ -1,14 +1,11 @@
 package com.example.triptracker;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-public class tripfinish extends AppCompatActivity {
+public class tripfinish extends MainActivity {
 
     Button mCancelFinish, mSaveFinish;
 
@@ -26,8 +23,7 @@ public class tripfinish extends AppCompatActivity {
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(), "Action Canceled",
                         Toast.LENGTH_SHORT).show();
-                Intent cancelTrackFinishToHome = new Intent(tripfinish.this, home.class);
-                startActivity(cancelTrackFinishToHome);
+                intentBackToHome();
                 // Call 3_HOME
             }
         });
@@ -37,8 +33,7 @@ public class tripfinish extends AppCompatActivity {
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(), "Trip Saved",
                         Toast.LENGTH_SHORT).show();
-                Intent saveTrackFinishToHome = new Intent(tripfinish.this, home.class);
-                startActivity(saveTrackFinishToHome);
+                intentBackToHome();
                 // Call 3_HOME
             }
         });

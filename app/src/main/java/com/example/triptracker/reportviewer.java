@@ -1,14 +1,12 @@
 package com.example.triptracker;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 
-public class reportviewer extends AppCompatActivity {
+public class reportviewer extends MainActivity {
 
     Button mCancelReportViewer;
 
@@ -25,8 +23,7 @@ public class reportviewer extends AppCompatActivity {
             public void onClick(View view){
                 Toast.makeText(getApplicationContext(), "Action Canceled",
                         Toast.LENGTH_SHORT).show();
-                Intent reportViewerToHome = new Intent(reportviewer.this, home.class);
-                startActivity(reportViewerToHome);
+                intentBackToHome();
                 // Call 3_HOME
             }
         });

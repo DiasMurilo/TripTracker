@@ -6,9 +6,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 
-public class starttrip extends AppCompatActivity {
+public class starttrip extends MainActivity{
 
     Button mCancelBefore, mSettingsBefore, mStartBefore;
 
@@ -27,8 +26,7 @@ public class starttrip extends AppCompatActivity {
             public void onClick(View view){
                 Toast.makeText(getApplicationContext(), "Settings",
                         Toast.LENGTH_SHORT).show();
-                Intent starttriptosettings = new Intent(starttrip.this, settings.class);
-                startActivity(starttriptosettings);
+                intentBackToSettings();
                 // Call 2_SETTINGS
             }
         });
@@ -38,8 +36,7 @@ public class starttrip extends AppCompatActivity {
             public void onClick(View view){
                 Toast.makeText(getApplicationContext(), "Action Canceled",
                         Toast.LENGTH_SHORT).show();
-                Intent startTripToHome = new Intent(starttrip.this, home.class);
-                startActivity(startTripToHome);
+                intentBackToHome();
                 // Call 3_HOME
             }
         });

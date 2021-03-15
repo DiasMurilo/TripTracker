@@ -6,9 +6,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 
-public class trackingtrip extends AppCompatActivity {
+public class trackingtrip extends MainActivity {
 
     Button mCancelTracking, mFinishTrack;
 
@@ -25,8 +24,7 @@ public class trackingtrip extends AppCompatActivity {
             public void onClick(View view){
                 Toast.makeText(getApplicationContext(), "Action Canceled",
                         Toast.LENGTH_SHORT).show();
-                Intent TrackingTripToHome = new Intent(trackingtrip.this, home.class);
-                startActivity(TrackingTripToHome);
+                intentBackToHome();
                 // Call 3_HOME
             }
         });

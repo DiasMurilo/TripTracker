@@ -1,14 +1,12 @@
 package com.example.triptracker;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 
-public class selecttrip extends AppCompatActivity {
+public class selecttrip extends MainActivity {
 
     Button mCancelSelectTrip;
 
@@ -26,8 +24,7 @@ public class selecttrip extends AppCompatActivity {
             public void onClick(View view){
                 Toast.makeText(getApplicationContext(), "Action Canceled",
                         Toast.LENGTH_SHORT).show();
-                Intent selectTripToHomeScreen = new Intent(selecttrip.this, home.class);
-                startActivity(selectTripToHomeScreen);
+                intentBackToHome();
                 // Call 3_HOME
             }
         });
