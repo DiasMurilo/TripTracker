@@ -155,7 +155,7 @@
             android:cursorVisible="true"
             android:ems="10"
             android:hint="@string/kml"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:isScrollContainer="false"
             android:shadowColor="@color/colorShadow"
             android:textAlignment="textStart"

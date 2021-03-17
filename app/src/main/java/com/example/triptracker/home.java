@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class home extends AppCompatActivity {
+public class home extends MainActivity {
 
     Button mButtonTrack, mButtonExpense, mButtonSettings, mButtonReport, mButtonLogout;
 
@@ -70,8 +70,7 @@ public class home extends AppCompatActivity {
         mButtonLogout.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Logout",
-                        Toast.LENGTH_SHORT).show();
+                signOut();
                 Intent homeLogout = new Intent(home.this, MainActivity.class);
                 startActivity(homeLogout);
                 // close connection and any life cicle need
@@ -79,4 +78,5 @@ public class home extends AppCompatActivity {
         });
 
     }
+
 }
