@@ -120,5 +120,6 @@ public class settings extends MainActivity {
     @Override
     public void onBackPressed() {
     // Block user from exiting Settings without filling fields
+        Toast.makeText(getApplicationContext(), "Setting fields mandatory", Toast.LENGTH_SHORT).show();
     }
 }

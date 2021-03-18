@@ -77,6 +77,10 @@ public class home extends MainActivity {
             }
         });
 
+        if (checkIfSettingsSaved()==false){
+            intentBackToSettings();
+        }
+
     }
 
 }
