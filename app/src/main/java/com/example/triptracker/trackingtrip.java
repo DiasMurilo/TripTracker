@@ -34,11 +34,23 @@ public class trackingtrip extends MainActivity {
             public void onClick(View view){
                 Toast.makeText(getApplicationContext(), "Track Finished",
                         Toast.LENGTH_SHORT).show();
-                Intent trackingTripToTripFinish = new Intent(trackingtrip.this, tripfinish.class);
+                //Saving data as a test
+                saveDistanceConsume();
+
+                Intent trackingTripToTripFinish = new Intent(getApplicationContext(), tripfinish.class);
                 startActivity(trackingTripToTripFinish);
                 // Call 6_TRIP_FINISH
             }
         });
 
+    }
+    private void saveDistanceConsume(){
+        //save trip values
+        editor = trackingtrip.this.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+        String myDistance = "13.5";
+        String myConsumed = "16.875";
+        editor.putString("distance", myDistance);
+        editor.putString("consumed", myConsumed);
+        editor.commit();
     }
 }

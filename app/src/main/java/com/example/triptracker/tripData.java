@@ -1,30 +1,30 @@
 package com.example.triptracker;
 
 import com.google.firebase.database.Exclude;
+import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+@IgnoreExtraProperties
 public class tripData {
-
     public String email;
     public String name;
+    public Date date;
     public String company;
     public String carRef;
-    public float kml;
+    public String kml;
     public String fuel;
     public String reason;
     public String destiny;
-    public float distance;
-    public float fuelCons;
-    public Date date;
-
+    public String distance;
+    public String fuelCons;
     public tripData() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public tripData(String email, String name, Date date, String company, String carRef, float kml, String fuel, String reason, String destiny, float distance, float fuelCons) {
+    public tripData(String email, String name, Date date, String company, String carRef, String kml, String fuel, String reason, String destiny, String distance, String fuelCons) {
         this.email = email;
         this.name = name;
         this.date = date;
