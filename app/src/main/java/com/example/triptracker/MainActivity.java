@@ -83,13 +83,14 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
     public void intentBackToHome(){
-        Intent backToHomeScreen = new Intent(getApplicationContext(), home.class);
+        Intent backToHomeScreen = new Intent(getApplicationContext(), Home.class);
         startActivity(backToHomeScreen);
     }
 
     public void intentBackToSettings(){
-        Intent intentToSettingsScreen = new Intent(getApplicationContext(), settings.class);
+        Intent intentToSettingsScreen = new Intent(getApplicationContext(), Settings.class);
         startActivity(intentToSettingsScreen);
     }
 

@@ -6,7 +6,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 
-public class selectdate extends MainActivity {
+public class SelectDate extends MainActivity {
 
     Button mCancelSelectDate;
 

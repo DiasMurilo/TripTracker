@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.triptracker">
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -15,47 +18,47 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".home">
+        <activity android:name=".Home">
         <intent-filter>
             <action android:name="android.intent.action.home" />
         </intent-filter>
         </activity>
-        <activity android:name=".imageviewer">
+        <activity android:name=".ImageViewer">
             <intent-filter>
                 <action android:name="android.intent.action.imageviewer" />
             </intent-filter>
         </activity>
-        <activity android:name=".reportviewer">
+        <activity android:name=".ReportViewer">
             <intent-filter>
                 <action android:name="android.intent.action.reportviewer" />
             </intent-filter>
         </activity>
-        <activity android:name=".selectdate">
+        <activity android:name=".SelectDate">
             <intent-filter>
                 <action android:name="android.intent.action.selectdate" />
             </intent-filter>
         </activity>
-        <activity android:name=".selecttrip">
+        <activity android:name=".SelectTrip">
             <intent-filter>
                 <action android:name="android.intent.action.selecttrip" />
             </intent-filter>
         </activity>
-        <activity android:name=".settings">
+        <activity android:name=".Settings">
             <intent-filter>
                 <category android:name="android.intent.category.settings" />
             </intent-filter>
         </activity>
-        <activity android:name=".starttrip">
+        <activity android:name=".StartTrip">
             <intent-filter>
                 <category android:name="android.intent.category.starttrip" />
             </intent-filter>
         </activity>
-        <activity android:name=".trackingtrip">
+        <activity android:name=".TrackingTrip">
             <intent-filter>
                 <action android:name="android.intent.action.trackingtrip" />
             </intent-filter>
         </activity>
-        <activity android:name=".tripfinish">
+        <activity android:name=".TripFinish">
             <intent-filter>
                 <action android:name="android.intent.action.tripfinish" />
             </intent-filter>

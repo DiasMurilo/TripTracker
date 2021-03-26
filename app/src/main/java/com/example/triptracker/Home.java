@@ -6,9 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-public class home extends MainActivity {
+public class Home extends MainActivity {
 
     Button mButtonTrack, mButtonExpense, mButtonSettings, mButtonReport, mButtonLogout;
 
@@ -28,7 +26,7 @@ public class home extends MainActivity {
             public void onClick(View view){
                 Toast.makeText(getApplicationContext(), "Confirm your data before start",
                         Toast.LENGTH_SHORT).show();
-                Intent homeToStartTrip = new Intent(home.this, starttrip.class);
+                Intent homeToStartTrip = new Intent(Home.this, StartTrip.class);
                 startActivity(homeToStartTrip);
                 // Call 4_START_TRIP
             }
@@ -39,7 +37,7 @@ public class home extends MainActivity {
             public void onClick(View view){
                 Toast.makeText(getApplicationContext(), "Select a Trip to add",
                         Toast.LENGTH_SHORT).show();
-                Intent homeToSelectDate = new Intent(home.this, selecttrip.class);
+                Intent homeToSelectDate = new Intent(Home.this, SelectTrip.class);
                 startActivity(homeToSelectDate);
                 // Call 7_SELECT_TRIP
             }
@@ -50,7 +48,7 @@ public class home extends MainActivity {
             public void onClick(View view){
                 Toast.makeText(getApplicationContext(), "Settings",
                         Toast.LENGTH_SHORT).show();
-                Intent homeToSettings = new Intent(home.this, settings.class);
+                Intent homeToSettings = new Intent(Home.this, Settings.class);
                 startActivity(homeToSettings);
                 // Call 7_SELECT_TRIP
             }
@@ -61,7 +59,7 @@ public class home extends MainActivity {
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(),"Select Dates",
                         Toast.LENGTH_LONG).show();
-                Intent homeToReport = new Intent(home.this, selectdate.class);
+                Intent homeToReport = new Intent(Home.this, SelectDate.class);
                 startActivity(homeToReport);
                 // Call 9_SELECT_DATE
             }
@@ -71,7 +69,7 @@ public class home extends MainActivity {
             @Override
             public void onClick(View view) {
                 signOut();
-                Intent homeLogout = new Intent(home.this, MainActivity.class);
+                Intent homeLogout = new Intent(Home.this, MainActivity.class);
                 startActivity(homeLogout);
                 // close connection and any life cicle need
             }

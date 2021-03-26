@@ -6,7 +6,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 
-public class imageviewer extends MainActivity {
+public class ImageViewer extends MainActivity {
 
     Button mButtonCancelImageViewer;
 

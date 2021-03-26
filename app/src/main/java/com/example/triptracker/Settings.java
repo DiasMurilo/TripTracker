@@ -8,7 +8,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
-public class settings extends MainActivity {
+public class Settings extends MainActivity {
 
     // Class wide variables
     public static final String MY_PREFS_NAME = "MyPrefsFile";
@@ -38,7 +38,7 @@ public class settings extends MainActivity {
             public void onClick(View view){
                 if (checkFields() == true){
                     savePreferences();
-                    settings.this.finish();
+                    Settings.this.finish();
                 }
             }
         });
@@ -48,7 +48,7 @@ public class settings extends MainActivity {
                 if(checkFields() == true) {
                     Toast.makeText(getApplicationContext(), "Canceled",
                             Toast.LENGTH_SHORT).show();
-                    settings.this.finish();
+                    Settings.this.finish();
                 }
             }
         });
@@ -61,27 +61,27 @@ public class settings extends MainActivity {
         String ikml = mkml.getText().toString();
         String iFuel = mFuel.getText().toString();
         if (iName.equals("")) {
-            Toast.makeText(settings.this, "Name is Empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Settings.this, "Name is Empty", Toast.LENGTH_SHORT).show();
             return false;
         }
         else if (iCompany.equals("")) {
-            Toast.makeText(settings.this, "Company is empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Settings.this, "Company is empty", Toast.LENGTH_SHORT).show();
             return false;
         }
         else if (iCarref.equals("")) {
-            Toast.makeText(settings.this, "Car Reference is empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Settings.this, "Car Reference is empty", Toast.LENGTH_SHORT).show();
             return false;
         }
         else if (ikml.equals("")) {
-            Toast.makeText(settings.this, "km/l is empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Settings.this, "km/l is empty", Toast.LENGTH_SHORT).show();
             return false;
         }
         else if (iFuel.equals("")) {
-            Toast.makeText(settings.this, "Car Reference is empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Settings.this, "Car Reference is empty", Toast.LENGTH_SHORT).show();
             return false;
         }
         else {
-            Toast.makeText(settings.this, "Settings saved", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Settings.this, "Settings saved", Toast.LENGTH_SHORT).show();
             return true;
         }
     }
@@ -104,7 +104,7 @@ public class settings extends MainActivity {
 
     private void updateFields() {
         //check if there are already data and set it to Fields
-        pref = settings.this.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        pref = Settings.this.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         final String pName = pref.getString("name", "");
         final String pCompany = pref.getString("company", "");
         final String pCarRef = pref.getString("carref", "");

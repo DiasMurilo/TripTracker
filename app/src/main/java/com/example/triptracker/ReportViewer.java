@@ -6,7 +6,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 
-public class reportviewer extends MainActivity {
+public class ReportViewer extends MainActivity {
 
     Button mCancelReportViewer;
 

@@ -8,10 +8,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
 
-
-public class starttrip extends MainActivity{
+public class StartTrip extends MainActivity{
 
     Button mCancelBefore, mSettingsBefore, mStartBefore;
     TextView sName, sCompany, sCarRef, skml, sFuel;
@@ -61,7 +59,7 @@ public class starttrip extends MainActivity{
             public void onClick(View view){
                 Toast.makeText(getApplicationContext(), "Starting Trip",
                         Toast.LENGTH_SHORT).show();
-                Intent startTripToTrip = new Intent(starttrip.this, trackingtrip.class);
+                Intent startTripToTrip = new Intent(StartTrip.this, TrackingTrip.class);
                 startActivity(startTripToTrip);
                 //INSERT PARAMETER TO PREVENT USER TO PROCEEED WITHOUT FILL FIELDS
                 saveReasonDestiny();
@@ -80,7 +78,7 @@ public class starttrip extends MainActivity{
 
     private void saveReasonDestiny(){
         //save the values in the Preferences
-        editor = starttrip.this.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+        editor = StartTrip.this.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
         String myTripReason = mFieldReason.getText().toString();
         String myDestiny = mFieldDestiny.getText().toString();
         editor.putString("tripReason", myTripReason);
@@ -90,7 +88,7 @@ public class starttrip extends MainActivity{
 
     private void updateFieldsStartTrip() {
         //check if there are already data and set it to Fields
-        pref = starttrip.this.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        pref = StartTrip.this.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         final String pName = pref.getString("name", "");
         final String pCompany = pref.getString("company", "");
         final String pCarRef = pref.getString("carref", "");

@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @IgnoreExtraProperties
-public class tripData {
+public class TripData {
     public String email;
     public String name;
     public Date date;
@@ -20,11 +20,11 @@ public class tripData {
     public String destiny;
     public String distance;
     public String fuelCons;
-    public tripData() {
+    public TripData() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public tripData(String email, String name, Date date, String company, String carRef, String kml, String fuel, String reason, String destiny, String distance, String fuelCons) {
+    public TripData(String email, String name, Date date, String company, String carRef, String kml, String fuel, String reason, String destiny, String distance, String fuelCons) {
         this.email = email;
         this.name = name;
         this.date = date;

@@ -19,7 +19,7 @@ import java.util.Calendar;
 
 import androidx.annotation.NonNull;
 
-public class tripfinish extends MainActivity {
+public class TripFinish extends MainActivity {
 
     Button mCancelFinish, mSaveFinish;
     TextView mFinishedTrip;
@@ -37,10 +37,10 @@ public class tripfinish extends MainActivity {
         mSaveFinish = findViewById(R.id.saveFinish);
         mFinishedTrip = findViewById(R.id.finishedTrip);
 
-        //dbRef = FirebaseDatabase.getInstance().getReference();
+        dbRef = FirebaseDatabase.getInstance().getReference();
 
         //Retrieve User Preferences
-        pref = tripfinish.this.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        pref = TripFinish.this.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         final String pEmail = pref.getString("email", "");
         final String pName = pref.getString("name", "");
         final String pCompany = pref.getString("company", "");
@@ -65,7 +65,7 @@ public class tripfinish extends MainActivity {
                 // Call 3_HOME
             }
         });
-
+        
         mSaveFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,14 +75,14 @@ public class tripfinish extends MainActivity {
                 //___________________________________________________________
 
 
-                /*
+
                 String key = dbRef.child("trips").push().getKey();
                 Date currentTime = Calendar.getInstance().getTime();
-                tripData newTrip = new tripData(pEmail, pName, currentTime, pCompany, pCarRef, pkml, pFuel, pReason, pDestiny, pDistance, pConsumed);
+                TripData newTrip = new TripData(pEmail, pName, currentTime, pCompany, pCarRef, pkml, pFuel, pReason, pDestiny, pDistance, pConsumed);
                 Map<String, Object> trip = newTrip.toMap();
 
                 Map<String, Object> childUpdates = new HashMap<>();
-                childUpdates.put("/trip/" + pEmail + "/" + key, trip);
+                childUpdates.put("/trips/" + pEmail + "/" + key, trip);
 
 
                 dbRef.updateChildren(childUpdates)
@@ -102,12 +102,10 @@ public class tripfinish extends MainActivity {
                         });
 
                 //____________________________________________________________________________________
-                */
+
 
                 // Write a message to the database
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference myRef = database.getReference("message");
-                myRef.setValue("Hello, World!");
+
 
                 intentBackToHome();
                 // Call 3_HOME

@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "519433976394",
+    "firebase_url": "https://triptracker-821dc-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "triptracker-821dc",
     "storage_bucket": "triptracker-821dc.appspot.com"
   },

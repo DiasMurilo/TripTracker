@@ -6,7 +6,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 
-public class selecttrip extends MainActivity {
+public class SelectTrip extends MainActivity {
 
     Button mCancelSelectTrip;
 
