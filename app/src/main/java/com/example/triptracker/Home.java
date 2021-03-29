@@ -37,8 +37,8 @@ public class Home extends MainActivity {
             public void onClick(View view){
                 Toast.makeText(getApplicationContext(), "Select a Trip to add",
                         Toast.LENGTH_SHORT).show();
-                Intent homeToSelectDate = new Intent(Home.this, SelectTrip.class);
-                startActivity(homeToSelectDate);
+                Intent homeToSelectTrip = new Intent(Home.this, SelectTrip.class);
+                startActivity(homeToSelectTrip);
                 // Call 7_SELECT_TRIP
             }
         });
@@ -59,8 +59,8 @@ public class Home extends MainActivity {
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(),"Select Dates",
                         Toast.LENGTH_LONG).show();
-                Intent homeToReport = new Intent(Home.this, SelectDate.class);
-                startActivity(homeToReport);
+                Intent homeToSelectDate = new Intent(Home.this, SelectDate.class);
+                startActivity(homeToSelectDate);
                 // Call 9_SELECT_DATE
             }
         });

@@ -129,11 +129,12 @@ public class MainActivity extends AppCompatActivity {
         mPass.setText(pPass);
     }
 
-    private void savePreferencesLogin(){
+    private void savePreferencesLogin(String userId){
         //save the values in the Preferences
         editor = MainActivity.this.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
         String myEmail = mEmail.getText().toString();
         String myPass = mPass.getText().toString();
+        editor.putString("uid", userId);
         editor.putString("email", myEmail);
         editor.putString("pass", myPass);
         editor.commit();
@@ -186,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Authentication Successful.", Toast.LENGTH_SHORT).show();
                         Log.d(TAG, "signInWithEmail:success");
                         FirebaseUser user = mAuth.getCurrentUser();
-                        savePreferencesLogin();     // Update user preferences
+                        savePreferencesLogin(user.getUid());     // Update user preferences
                         if (checkIfSettingsSaved()==true) {
                             intentBackToHome();         // open home Screen
                         }
@@ -244,7 +245,7 @@ public class MainActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            savePreferencesLogin();     // Update user preferences
+                            savePreferencesLogin(user.getUid());     // Update user preferences
                             intentBackToSettings();         // open home Screen
                         }
                         else {

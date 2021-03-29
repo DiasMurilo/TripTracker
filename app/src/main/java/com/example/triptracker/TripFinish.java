@@ -76,13 +76,14 @@ public class TripFinish extends MainActivity {
 
 
 
+                final String uid = pref.getString("uid", "");
                 String key = dbRef.child("trips").push().getKey();
                 Date currentTime = Calendar.getInstance().getTime();
                 TripData newTrip = new TripData(pEmail, pName, currentTime, pCompany, pCarRef, pkml, pFuel, pReason, pDestiny, pDistance, pConsumed);
                 Map<String, Object> trip = newTrip.toMap();
 
                 Map<String, Object> childUpdates = new HashMap<>();
-                childUpdates.put("/trips/" + pEmail + "/" + key, trip);
+                childUpdates.put("/trips/" + uid + "/" + key, trip);
 
 
                 dbRef.updateChildren(childUpdates)

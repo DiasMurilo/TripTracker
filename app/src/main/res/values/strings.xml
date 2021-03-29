@@ -40,4 +40,9 @@
     <string name="to">TO</string>
     <string name="report">REPORT</string>
     <string name="start">START</string>
+    <string name="tripref">Trip Ref.:</string>
+    <string name="date">Date:</string>
+    <string name="reason_">Reason:</string>
+    <string name="destination">Destination:</string>
+    <string name="border">border</string>
 </resources>
