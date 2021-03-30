@@ -42,7 +42,7 @@ public class TripFinish extends MainActivity {
 
         //Retrieve User Preferences
         pref = TripFinish.this.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-        final String pEmail = pref.getString("email", "");
+        //final String pEmail = pref.getString("email", "");
         final String pName = pref.getString("name", "");
         final String pCompany = pref.getString("company", "");
         final String pCarRef = pref.getString("carref", "");
@@ -51,10 +51,10 @@ public class TripFinish extends MainActivity {
         final String pReason = pref.getString("tripReason", "");
         final String pDestiny = pref.getString("tripDestiny", "");
         final String pDistance = pref.getString("distance", "");
-        final String pConsumed = pref.getString("consumed", "");
+        //final String pConsumed = pref.getString("consumed", "");
 
         // Print trip data to user
-        String newData = "Name: " + pName + "\n" + "Reason: " + pReason + "\n" + "Destiny: " + pDestiny + "\n" + "Company: " + pCompany + "\n" + "Car Reference: " + pCarRef + "\n" + "km/l: " + pkml + "\n" + "Fuel: " + pFuel + "\n" + "Distance: " + pDistance + "\n" + "Comsumed: " + pConsumed;
+        String newData = "Name: " + pName + "\n" + "Reason: " + pReason + "\n" + "Destiny: " + pDestiny + "\n" + "Company: " + pCompany + "\n" + "Car Reference: " + pCarRef + "\n" + "km/l: " + pkml + "\n" + "Fuel: " + pFuel + "\n" + "Distance: " + pDistance + "\n";
         mFinishedTrip.setText(newData);
 
         mCancelFinish.setOnClickListener(new View.OnClickListener() {
@@ -84,7 +84,7 @@ public class TripFinish extends MainActivity {
                 String currentDate = sdf.format(calendar.getTime());
 
 
-                TripData newTrip = new TripData(pEmail, pName, currentDate, pCompany, pCarRef, pkml, pFuel, pReason, pDestiny, pDistance, pConsumed);
+                TripData newTrip = new TripData( pName, currentDate, pCompany, pCarRef, pkml, pFuel, pReason, pDestiny, pDistance);
                 Map<String, Object> trip = newTrip.toMap();
 
                 Map<String, Object> childUpdates = new HashMap<>();

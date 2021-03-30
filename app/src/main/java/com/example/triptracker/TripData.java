@@ -9,7 +9,7 @@ import java.util.Map;
 
 @IgnoreExtraProperties
 public class TripData {
-    public String email;
+    //public String email;
     public String name;
     public String date;
     public String company;
@@ -19,13 +19,13 @@ public class TripData {
     public String reason;
     public String destination;
     public String distance;
-    public String fuelCons;
+    //public String fuelCons;
     public TripData() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public TripData(String email, String name, String date, String company, String carRef, String kml, String fuel, String reason, String destination, String distance, String fuelCons) {
-        this.email = email;
+    public TripData(String name, String date, String company, String carRef, String kml, String fuel, String reason, String destination, String distance) {
+        //this.email = email;
         this.name = name;
         this.date = date;
         this.company = company;
@@ -35,13 +35,13 @@ public class TripData {
         this.reason = reason;
         this.destination = destination;
         this.distance = distance;
-        this.fuelCons = fuelCons;
+        //this.fuelCons = fuelCons;
     }
 
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("email", email);
+        //result.put("email", email);
         result.put("name", name);
         result.put("date", date);
         result.put("company", company);
@@ -51,7 +51,7 @@ public class TripData {
         result.put("reason", reason);
         result.put("destination", destination);
         result.put("distance", distance);
-        result.put("fuelCons", fuelCons);
+        //result.put("fuelCons", fuelCons);
         return result;
     }
 }

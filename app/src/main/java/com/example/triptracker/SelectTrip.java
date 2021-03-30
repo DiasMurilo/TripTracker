@@ -77,7 +77,6 @@ public class SelectTrip extends AppCompatActivity{
         adapter.stopListening();
     }
 
-
     private String getUID() {
         //check if there are already dates and set it to Fields, otherwise "Edit Text" fields are set empty
         pref = SelectTrip.this.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
@@ -85,29 +84,4 @@ public class SelectTrip extends AppCompatActivity{
         return uid;
     }
 
-
-
-
-
-    //add array for each item
-    /*private ArrayList<String> mTripN = new ArrayList<>();
-    private ArrayList<String> mDate = new ArrayList<>();
-    private ArrayList<String> mReason = new ArrayList<>();
-    private ArrayList<String> mDestination = new ArrayList<>();
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.selecttrip);
-
-        // add link to pictures inside of Firebase bucket
-        mTripN.add("10"); mDate.add("01/10/2015"); mReason.add("Class SDA"); mDestination.add("DCU");
-        mTripN.add("20"); mDate.add("02/08/2009"); mReason.add("Class CA"); mDestination.add("DCU");
-
-        //SelectTrip recyclerViewAdapter = new SelectTrip(getContext(), mTripN, mDate, mReason, mDestination, SelectTrip.class);
-        RecyclerView recyclerView = findViewById(R.id.tripListView);
-        TripList myAdapter = new TripList(this, mTripN, mDate, mReason, mDestination);
-        recyclerView.setAdapter(myAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-    }*/
 }
