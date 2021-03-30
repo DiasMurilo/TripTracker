@@ -23,7 +23,7 @@
     <string name="button_logout">LOGOUT</string>
     <string name="confirm_data">CONFIRM YOUR DATA BEFORE START</string>
     <string name="reason">Reason</string>
-    <string name="destiny">Destiny</string>
+    <string name="destiny">Destination</string>
     <string name="settings_note">Notes:</string>
     <string name="settings_note1">1. Those data will be included in your report.</string>
     <string name="settings_note2">2. You can alter that at any moment.</string>

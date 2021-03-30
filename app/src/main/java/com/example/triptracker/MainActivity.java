@@ -149,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
         final String ckml = pref.getString("kml", "");
         final String cFuel = pref.getString("fuel", "");
 
+
         if (cName.equals("")) {
             return false;
         }

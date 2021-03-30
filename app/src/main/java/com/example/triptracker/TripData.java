@@ -11,20 +11,20 @@ import java.util.Map;
 public class TripData {
     public String email;
     public String name;
-    public Date date;
+    public String date;
     public String company;
     public String carRef;
     public String kml;
     public String fuel;
     public String reason;
-    public String destiny;
+    public String destination;
     public String distance;
     public String fuelCons;
     public TripData() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public TripData(String email, String name, Date date, String company, String carRef, String kml, String fuel, String reason, String destiny, String distance, String fuelCons) {
+    public TripData(String email, String name, String date, String company, String carRef, String kml, String fuel, String reason, String destination, String distance, String fuelCons) {
         this.email = email;
         this.name = name;
         this.date = date;
@@ -33,7 +33,7 @@ public class TripData {
         this.kml = kml;
         this.fuel = fuel;
         this.reason = reason;
-        this.destiny = destiny;
+        this.destination = destination;
         this.distance = distance;
         this.fuelCons = fuelCons;
     }
@@ -49,7 +49,7 @@ public class TripData {
         result.put("kml", kml);
         result.put("fuel", fuel);
         result.put("reason", reason);
-        result.put("destiny", destiny);
+        result.put("destination", destination);
         result.put("distance", distance);
         result.put("fuelCons", fuelCons);
         return result;

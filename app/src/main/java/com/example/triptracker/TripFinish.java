@@ -12,6 +12,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -75,11 +76,15 @@ public class TripFinish extends MainActivity {
                 //___________________________________________________________
 
 
-
                 final String uid = pref.getString("uid", "");
                 String key = dbRef.child("trips").push().getKey();
-                Date currentTime = Calendar.getInstance().getTime();
-                TripData newTrip = new TripData(pEmail, pName, currentTime, pCompany, pCarRef, pkml, pFuel, pReason, pDestiny, pDistance, pConsumed);
+
+                Calendar calendar = Calendar.getInstance();
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
+                String currentDate = sdf.format(calendar.getTime());
+
+
+                TripData newTrip = new TripData(pEmail, pName, currentDate, pCompany, pCarRef, pkml, pFuel, pReason, pDestiny, pDistance, pConsumed);
                 Map<String, Object> trip = newTrip.toMap();
 
                 Map<String, Object> childUpdates = new HashMap<>();
