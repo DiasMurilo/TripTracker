@@ -8,7 +8,6 @@
     android:padding="2dp"
     android:visibility="visible"
     tools:visibility="visible">
-
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="match_parent"
@@ -157,4 +156,9 @@
         android:layout_toEndOf="@+id/textView28"
         android:textSize="18sp" />
 
+    <Button
+        android:id="@+id/buttonCamera"
+        android:layout_width="409dp"
+        android:layout_height="98dp"
+        android:background="#00FFFFFF" />
 </RelativeLayout>
