@@ -1,5 +1,7 @@
 package com.example.triptracker;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -9,12 +11,25 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
+import com.google.firebase.storage.UploadTask;
+
 
 
 
@@ -25,10 +40,15 @@ public class ImageViewer extends MainActivity {
     private Uri cameraImageURI;
 
     //initialising widgets (views) for use in this class
-    private String iTripRef, iDate, iReason, iDestination;
+    private String iTripRef, iDate, iReason, iDestination, iURL;   // iURL is the address to send image link
     private TextView mtripRef, mDate, mReason, mDestination;
     private ImageView mImageViewer;
-    private Button mButtonCancelImageViewer, mCamera;
+    private Button mButtonCancelImageViewer, mCamera, mSave;
+
+    // [START storage_field_initialization]
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    // Create a storage reference from our app
+    StorageReference storageRef = storage.getReference();
 
 
 
@@ -45,12 +65,16 @@ public class ImageViewer extends MainActivity {
         mReason = findViewById(R.id.camera__reason);
         mDestination = findViewById(R.id.camera_destination);
         mImageViewer = findViewById(R.id.imageViewerField);
+        mSave = findViewById(R.id.saveImageViewer);
 
+        //Retrieve User Preferences
+        pref = ImageViewer.this.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
 
         iTripRef = getIntent().getExtras().get("tripRef").toString();
         iDate = getIntent().getExtras().get("date").toString();
         iReason = getIntent().getExtras().get("reason").toString();
         iDestination = getIntent().getExtras().get("destination").toString();
+        iURL = getIntent().getExtras().get("urlLink").toString();
 
 
         mtripRef.setText(iTripRef);
@@ -75,6 +99,56 @@ public class ImageViewer extends MainActivity {
                 dispatchTakePictureIntent(v);
             }
         });
+
+        mSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Calendar calendar = Calendar.getInstance();
+                SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy_hh:mm:ss");
+                String currentDate = sdf.format(calendar.getTime());
+
+                final String uid = pref.getString("uid", "");
+
+                /*Uri file = Uri.fromFile(new File(String.valueOf(cameraImageURI)));
+                StorageReference triptrackerRef = storageRef.child(String.valueOf(uid) + file.getLastPathSegment());
+                uploadTask = triptrackerRef.putFile(file);*/
+                String receiptName = currentDate;
+                String receiptPathName = uid + "/" + receiptName;
+                StorageReference tripTrackerRef = storageRef.child(receiptPathName);
+                mImageViewer.setDrawingCacheEnabled(true);
+                mImageViewer.buildDrawingCache();
+                Bitmap bitmap = ((BitmapDrawable) mImageViewer.getDrawable()).getBitmap();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] data = baos.toByteArray();
+
+                UploadTask uploadTask = tripTrackerRef.putBytes(data);
+                uploadTask.addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Handle unsuccessful uploads
+                    }
+                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                        // ...
+                    }
+                });
+
+                String fullURL = iURL;
+                String excludePath = "https://triptracker-821dc-default-rtdb.europe-west1.firebasedatabase.app/";
+                String pathToFirebase = fullURL.replace(excludePath,"");
+                pathToFirebase = pathToFirebase + "/expenses/" + receiptName;
+
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference myRef = database.getReference(pathToFirebase);
+                myRef.setValue(receiptName);
+                //childUpdates.put("/trips/" + uid + "/" + key, trip);
+            }
+        });
+
 
     }
 
@@ -129,8 +203,6 @@ public class ImageViewer extends MainActivity {
             mImageViewer.setImageURI(cameraImageURI);
         }
     }
-
-
 
     private File createImageFile() throws IOException
     {

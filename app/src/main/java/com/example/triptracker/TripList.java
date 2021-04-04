@@ -1,6 +1,7 @@
 package com.example.triptracker;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.loader.content.CursorLoader;
 import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -29,15 +31,18 @@ public class TripList extends FirebaseRecyclerAdapter<ModelTripData,TripList.myv
         holder.date.setText(modelTripData.getDate());
         holder.reason.setText(modelTripData.getReason());
         holder.destination.setText(modelTripData.getDestination());
+        final String urlLink = String.valueOf(getRef(position));
         holder.selectTrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Context tripList = view.getContext();
+
                 Intent tripListIntent = new Intent(tripList, ImageViewer.class);
                 tripListIntent.putExtra("tripRef",String.valueOf(position  + 1));
                 tripListIntent.putExtra("date",modelTripData.getDate());
                 tripListIntent.putExtra("reason",modelTripData.getReason());
                 tripListIntent.putExtra("destination",modelTripData.getDestination());
+                tripListIntent.putExtra("urlLink", urlLink);
                 tripList.startActivity(tripListIntent);
 
                 //tripList.startActivity(new Intent(tripList, ImageViewer.class));
@@ -46,6 +51,7 @@ public class TripList extends FirebaseRecyclerAdapter<ModelTripData,TripList.myv
         //holder.carRef.setText(model.getCarRef());
         //Glide.with(holder.img.getContext()).load(model.getPurl()).into(holder.img);
     }
+
 
     @NonNull
     @Override
@@ -72,6 +78,7 @@ public class TripList extends FirebaseRecyclerAdapter<ModelTripData,TripList.myv
             //mTripList = itemView.findViewById(R.id.listItemLayout);
         }
     }
+
 
 
 }

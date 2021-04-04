@@ -37,7 +37,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView19" />
 
     <Button
-        android:id="@+id/startBefore"
+        android:id="@+id/saveImageViewer"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"

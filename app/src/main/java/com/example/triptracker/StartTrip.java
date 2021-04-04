@@ -23,7 +23,7 @@ public class StartTrip extends MainActivity{
 
         mCancelBefore = findViewById(R.id.cancelBefore);
         mSettingsBefore = findViewById(R.id.settingsBefore);
-        mStartBefore = findViewById(R.id.startBefore);
+        mStartBefore = findViewById(R.id.saveImageViewer);
         sName = findViewById(R.id.textName);
         sCompany = findViewById(R.id.textCompany);
         sCarRef = findViewById(R.id.textCarRef);

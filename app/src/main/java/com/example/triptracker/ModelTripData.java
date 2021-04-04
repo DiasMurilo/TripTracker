@@ -43,4 +43,6 @@ public class ModelTripData {
     public void setDestination(String destination) {
         this.destination = destination;
     }
+
+
 }
