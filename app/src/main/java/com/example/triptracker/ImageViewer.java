@@ -3,6 +3,7 @@ package com.example.triptracker;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -11,8 +12,11 @@ public class ImageViewer extends MainActivity {
 
 
 
+
+
     String iTripRef, iDate, iReason, iDestination;
     TextView mtripRef, mDate, mReason, mDestination;
+    ImageView mImageViewer;
     Button mButtonCancelImageViewer;
 
     @Override
@@ -27,6 +31,7 @@ public class ImageViewer extends MainActivity {
         mDate = findViewById(R.id.camera_date);
         mReason = findViewById(R.id.camera__reason);
         mDestination = findViewById(R.id.camera_destination);
+        mImageViewer = findViewById(R.id.imageViewerField);
 
 
 
