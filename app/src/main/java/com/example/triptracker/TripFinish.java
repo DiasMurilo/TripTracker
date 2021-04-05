@@ -75,7 +75,6 @@ public class TripFinish extends MainActivity {
                 //public tripData(String email, String name, Date date, String company, String carRef, float kml, String fuel, String reason, String destiny, float distance, float fuelCons) {
                 //___________________________________________________________
 
-
                 final String uid = pref.getString("uid", "");
                 String key = dbRef.child("trips").push().getKey();
 

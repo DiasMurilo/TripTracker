@@ -6,8 +6,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +27,9 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
@@ -40,8 +45,9 @@ public class ImageViewer extends MainActivity {
     private Uri cameraImageURI;
 
     //initialising widgets (views) for use in this class
-    private String iTripRef, iDate, iReason, iDestination, iURL;   // iURL is the address to send image link
+    private String iTripRef, iDate, iReason, iDestination, iURL, value, imageRef, description;   // iURL is the address to send image link
     private TextView mtripRef, mDate, mReason, mDestination;
+    private EditText mValue, mDescription;
     private ImageView mImageViewer;
     private Button mButtonCancelImageViewer, mCamera, mSave;
 
@@ -66,6 +72,8 @@ public class ImageViewer extends MainActivity {
         mDestination = findViewById(R.id.camera_destination);
         mImageViewer = findViewById(R.id.imageViewerField);
         mSave = findViewById(R.id.saveImageViewer);
+        mValue = findViewById(R.id.field_Value);
+        mDescription = findViewById(R.id.field_Description);
 
         //Retrieve User Preferences
         pref = ImageViewer.this.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
@@ -76,7 +84,7 @@ public class ImageViewer extends MainActivity {
         iDestination = getIntent().getExtras().get("destination").toString();
         iURL = getIntent().getExtras().get("urlLink").toString();
 
-
+        //dbRef = FirebaseDatabase.getInstance().getReference();
         mtripRef.setText(iTripRef);
         mDate.setText(iDate);
         mReason.setText(iReason);
@@ -104,48 +112,89 @@ public class ImageViewer extends MainActivity {
             @Override
             public void onClick(View v) {
 
-                Calendar calendar = Calendar.getInstance();
-                SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy_hh:mm:ss");
-                String currentDate = sdf.format(calendar.getTime());
+                value = mValue.getText().toString();
+                description = mDescription.getText().toString();
 
-                final String uid = pref.getString("uid", "");
+                if (value.equals(""))
+                {
+                    // add toast: please fill fields Value & Description
+                }
+                else if(description.equals(""))
+                {
+                    // add toast: please fill fields Value & Description
+                }
+                else {
+                    Calendar calendar = Calendar.getInstance();
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy_hh:mm:ss");
+                    String currentDate = sdf.format(calendar.getTime());
+
+                    final String uid = pref.getString("uid", "");
 
                 /*Uri file = Uri.fromFile(new File(String.valueOf(cameraImageURI)));
                 StorageReference triptrackerRef = storageRef.child(String.valueOf(uid) + file.getLastPathSegment());
                 uploadTask = triptrackerRef.putFile(file);*/
-                String receiptName = currentDate;
-                String receiptPathName = uid + "/" + receiptName;
-                StorageReference tripTrackerRef = storageRef.child(receiptPathName);
-                mImageViewer.setDrawingCacheEnabled(true);
-                mImageViewer.buildDrawingCache();
-                Bitmap bitmap = ((BitmapDrawable) mImageViewer.getDrawable()).getBitmap();
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                byte[] data = baos.toByteArray();
+                    String receiptName = currentDate;
+                    String receiptPathName = uid + "/" + receiptName;
+                    StorageReference tripTrackerRef = storageRef.child(receiptPathName);
+                    mImageViewer.setDrawingCacheEnabled(true);
+                    mImageViewer.buildDrawingCache();
+                    Bitmap bitmap = ((BitmapDrawable) mImageViewer.getDrawable()).getBitmap();
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                    byte[] data = baos.toByteArray();
 
-                UploadTask uploadTask = tripTrackerRef.putBytes(data);
-                uploadTask.addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        // Handle unsuccessful uploads
-                    }
-                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                        // ...
-                    }
-                });
+                    UploadTask uploadTask = tripTrackerRef.putBytes(data);
+                    uploadTask.addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            // Handle unsuccessful uploads
+                        }
+                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                            // ...
+                        }
+                    });
 
-                String fullURL = iURL;
-                String excludePath = "https://triptracker-821dc-default-rtdb.europe-west1.firebasedatabase.app/";
-                String pathToFirebase = fullURL.replace(excludePath,"");
-                pathToFirebase = pathToFirebase + "/expenses/" + receiptName;
+                    imageRef = receiptName;
+                    String fullURL = iURL;
+                    String excludePath = "https://triptracker-821dc-default-rtdb.europe-west1.firebasedatabase.app/";
+                    String pathToFirebase = fullURL.replace(excludePath, "");
+                    pathToFirebase = pathToFirebase ;//+ "/expenses/" + receiptName + "/";
+                    AddExpenses newExpense = new AddExpenses(imageRef, value, description);
+                    Map<String, Object> expense = newExpense.toMap();
 
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference myRef = database.getReference(pathToFirebase);
-                myRef.setValue(receiptName);
-                //childUpdates.put("/trips/" + uid + "/" + key, trip);
+                    //String key = dbRef.child("trips").push().getKey();
+
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    DatabaseReference myRef = database.getReference(pathToFirebase);
+
+                    Map<String, Object> childUpdates = new HashMap<>();
+                    childUpdates.put("/expenses/" + receiptName + "/", expense);
+
+                    myRef.updateChildren(childUpdates)
+                            .addOnSuccessListener(
+                                    new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Toast.makeText( getBaseContext(), "Trip Register successfully added!", Toast.LENGTH_SHORT).show();
+                                            intentBackToHome();
+                                        }
+                                    })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText( getBaseContext(), "Trip Register Failed, Check you connection", Toast.LENGTH_SHORT).show();
+                                    Log.w("onFailure", "Failed to read value.");
+                                }
+                            });
+
+                    //FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    //DatabaseReference myRef = database.getReference(pathToFirebase);
+                    //myRef.setValue(receiptName);
+                    //childUpdates.put("/trips/" + uid + "/" + key, trip);
+                }
             }
         });
 
