@@ -29,6 +29,8 @@ public class TrackingTrip extends MainActivity {
     //
     Button mCancelTracking, mFinishTrack;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +41,8 @@ public class TrackingTrip extends MainActivity {
                 .beginTransaction()
                 .replace(R.id.frame_layout, fragment)
                 .commit();
+
+
 
 
         mCancelTracking = findViewById(R.id.cancelTracking);
@@ -67,6 +71,7 @@ public class TrackingTrip extends MainActivity {
                 // Call 6_TRIP_FINISH
             }
         });
+
 
     }
 
