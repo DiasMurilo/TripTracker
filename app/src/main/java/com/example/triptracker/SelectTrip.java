@@ -45,10 +45,6 @@ public class SelectTrip extends AppCompatActivity{
                         .setQuery(FirebaseDatabase.getInstance().getReference().child("trips/" + mUID + "/"), ModelTripData.class)
                         .build();
 
-
-        /*Map<String, Object> childUpdates = new HashMap<>();
-                childUpdates.put("/trips/" + uid + "/" + key, trip);*/
-
         adapter=new TripList(options);
         recview.setAdapter(adapter);
 
@@ -62,7 +58,6 @@ public class SelectTrip extends AppCompatActivity{
                 // Call 3_HOME
             }
         });
-
     }
 
     @Override

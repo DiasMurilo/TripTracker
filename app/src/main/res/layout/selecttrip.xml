@@ -9,17 +9,17 @@
     android:background="@drawable/back"
     tools:context=".SelectTrip">
 
-        <Button
-            android:id="@+id/cancelSelectTrip"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="536dp"
-            android:backgroundTint="@color/colorButton"
-            android:text="@string/cancel"
-            android:textColor="@color/colorPrimary"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <Button
+        android:id="@+id/cancelSelectTrip"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginBottom="6dp"
+        android:backgroundTint="@color/colorButton"
+        android:text="@string/cancel"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView13"
@@ -40,8 +40,9 @@
         android:id="@+id/tripListView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="6dp"
         android:background="@color/colorButton"
         android:backgroundTint="@color/colorButton"
         app:layout_constraintBottom_toTopOf="@+id/cancelSelectTrip"

@@ -20,6 +20,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
+import java.util.ArrayList;
+
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
@@ -28,7 +30,7 @@ public class TrackingTrip extends MainActivity {
 
     //
     Button mCancelTracking, mFinishTrack;
-
+    MapFragment mMapFragment;
 
 
     @Override
@@ -36,14 +38,11 @@ public class TrackingTrip extends MainActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.trackingtrip);
 
-        Fragment fragment = new MapFragment();
+        mMapFragment = new MapFragment();
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.frame_layout, fragment)
+                .replace(R.id.frame_layout, mMapFragment)
                 .commit();
-
-
-
 
         mCancelTracking = findViewById(R.id.cancelTracking);
         mFinishTrack = findViewById(R.id.finishTracking);
@@ -63,25 +62,28 @@ public class TrackingTrip extends MainActivity {
             public void onClick(View view){
                 Toast.makeText(getApplicationContext(), "Track Finished",
                         Toast.LENGTH_SHORT).show();
-                //Saving data as a test
-                saveDistanceConsume();
+
+
+                float distance = calculateDistance(mMapFragment.getLocations());
+                distance = distance/1000; // change meters to kilometers
 
                 Intent trackingTripToTripFinish = new Intent(getApplicationContext(), TripFinish.class);
+                trackingTripToTripFinish.putExtra("distance", distance);
                 startActivity(trackingTripToTripFinish);
                 // Call 6_TRIP_FINISH
             }
         });
 
-
     }
 
-    private void saveDistanceConsume(){
-        //save trip values
-        editor = TrackingTrip.this.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
-        String myDistance = "13.5";
-        String myConsumed = "16.875";
-        editor.putString("distance", myDistance);
-        editor.putString("consumed", myConsumed);
-        editor.commit();
+    private float calculateDistance(ArrayList<Location> locations)
+    {
+        float distance = 0;
+        for(int i = 1; i < locations.size(); i++)
+        {
+            distance += locations.get(i - 1).distanceTo(locations.get(i));
+        }
+
+        return distance;
     }
 }

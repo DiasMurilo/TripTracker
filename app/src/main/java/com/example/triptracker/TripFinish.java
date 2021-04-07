@@ -6,14 +6,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Calendar;
@@ -21,13 +18,9 @@ import java.util.Calendar;
 import androidx.annotation.NonNull;
 
 public class TripFinish extends MainActivity {
-
     Button mCancelFinish, mSaveFinish;
     TextView mFinishedTrip;
-
     DatabaseReference dbRef;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +31,12 @@ public class TripFinish extends MainActivity {
         mSaveFinish = findViewById(R.id.saveFinish);
         mFinishedTrip = findViewById(R.id.finishedTrip);
 
+        //Get firebase reference
         dbRef = FirebaseDatabase.getInstance().getReference();
 
         //Retrieve User Preferences
         pref = TripFinish.this.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+
         //final String pEmail = pref.getString("email", "");
         final String pName = pref.getString("name", "");
         final String pCompany = pref.getString("company", "");
@@ -50,20 +45,18 @@ public class TripFinish extends MainActivity {
         final String pFuel = pref.getString("fuel", "");
         final String pReason = pref.getString("tripReason", "");
         final String pDestiny = pref.getString("tripDestiny", "");
-        final String pDistance = pref.getString("distance", "");
-        //final String pConsumed = pref.getString("consumed", "");
+        final String pDistance = pref.getString("distance", getIntent().getExtras().get("distance").toString());
 
         // Print trip data to user
         String newData = "Name: " + pName + "\n" + "Reason: " + pReason + "\n" + "Destiny: " + pDestiny + "\n" + "Company: " + pCompany + "\n" + "Car Reference: " + pCarRef + "\n" + "km/l: " + pkml + "\n" + "Fuel: " + pFuel + "\n" + "Distance: " + pDistance + "\n";
         mFinishedTrip.setText(newData);
-
         mCancelFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(), "Action Canceled",
                         Toast.LENGTH_SHORT).show();
                 intentBackToHome();
-                // Call 3_HOME
+                // Call 3_HOME+
             }
         });
         
@@ -79,7 +72,7 @@ public class TripFinish extends MainActivity {
                 String key = dbRef.child("trips").push().getKey();
 
                 Calendar calendar = Calendar.getInstance();
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
+                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yy");
                 String currentDate = sdf.format(calendar.getTime());
 
 

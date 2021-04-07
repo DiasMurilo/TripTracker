@@ -9,7 +9,6 @@ import java.util.Map;
 
 @IgnoreExtraProperties
 public class TripData {
-    //public String email;
     public String name;
     public String date;
     public String company;
@@ -19,7 +18,6 @@ public class TripData {
     public String reason;
     public String destination;
     public String distance;
-    //public String fuelCons;
     public TripData() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
@@ -35,7 +33,6 @@ public class TripData {
         this.reason = reason;
         this.destination = destination;
         this.distance = distance;
-        //this.fuelCons = fuelCons;
     }
 
     @Exclude
@@ -51,7 +48,6 @@ public class TripData {
         result.put("reason", reason);
         result.put("destination", destination);
         result.put("distance", distance);
-        //result.put("fuelCons", fuelCons);
         return result;
     }
 }

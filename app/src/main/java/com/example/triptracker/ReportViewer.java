@@ -5,7 +5,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-
 public class ReportViewer extends MainActivity {
 
     Button mCancelReportViewer;
@@ -14,7 +13,6 @@ public class ReportViewer extends MainActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.reportviewer);
-
 
         mCancelReportViewer = findViewById(R.id.cancelReportViewer);
 

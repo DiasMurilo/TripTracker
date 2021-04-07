@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
@@ -7,52 +8,48 @@
     android:adjustViewBounds="true"
     android:background="@drawable/back">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
 
     <Button
         android:id="@+id/cancelBefore"
-        android:layout_width="120dp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginBottom="6dp"
         android:backgroundTint="@color/colorButton"
         android:text="@string/cancel"
         android:textColor="@color/colorPrimary"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView19" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/settingsBefore"
-        android:layout_width="128dp"
+        android:layout_width="100dp"
         android:layout_height="46dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginBottom="6dp"
         android:backgroundTint="@color/colorButton"
         android:text="@string/button_settings"
         android:textColor="@color/colorPrimary"
-        app:layout_constraintStart_toEndOf="@+id/cancelBefore"
-        app:layout_constraintTop_toBottomOf="@+id/textView19" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/saveImageViewer"
+        app:layout_constraintStart_toEndOf="@+id/cancelBefore" />
 
     <Button
         android:id="@+id/saveImageViewer"
-        android:layout_width="120dp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="6dp"
         android:backgroundTint="@color/colorButton"
         android:text="@string/start"
         android:textColor="@color/colorPrimary"
-        app:layout_constraintStart_toEndOf="@+id/settingsBefore"
-        app:layout_constraintTop_toBottomOf="@+id/textView19" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/textView10"
         android:layout_width="323dp"
         android:layout_height="57dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="16dp"
         android:text="@string/confirm_data"
         android:textAlignment="center"
         android:textColor="@color/colorPrimary"
@@ -66,32 +63,32 @@
         android:id="@+id/textView11"
         android:layout_width="109dp"
         android:layout_height="32dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="26dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="16dp"
         android:text="@string/reason"
         android:textColor="@color/colorPrimary"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="109dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/destiny"
-        android:textColor="@color/colorPrimary"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/field_Reason" />
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="109dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/destiny"
+            android:textColor="@color/colorPrimary"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/field_Reason" />
 
     <TextView
         android:id="@+id/textView15"
         android:layout_width="109dp"
-        android:layout_height="32dp"
+        android:layout_height="0dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="16dp"
         android:text="@string/name"
         android:textColor="@color/colorPrimary"
         android:textSize="24sp"
@@ -114,9 +111,11 @@
         android:layout_width="234dp"
         android:layout_height="31dp"
         android:layout_marginStart="26dp"
+        android:layout_marginEnd="26dp"
         android:text="@string/company"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/colorSecundary"
         android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView16"
         app:layout_constraintTop_toBottomOf="@+id/textName" />
 
@@ -125,9 +124,11 @@
         android:layout_width="234dp"
         android:layout_height="32dp"
         android:layout_marginStart="26dp"
+        android:layout_marginEnd="26dp"
         android:text="@string/car_ref"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/colorSecundary"
         android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView22"
         app:layout_constraintTop_toBottomOf="@+id/textCompany" />
 
@@ -136,9 +137,11 @@
         android:layout_width="234dp"
         android:layout_height="32dp"
         android:layout_marginStart="26dp"
+        android:layout_marginEnd="26dp"
         android:text="@string/kml"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/colorSecundary"
         android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView18"
         app:layout_constraintTop_toBottomOf="@+id/textCarRef" />
 
@@ -147,10 +150,12 @@
         android:layout_width="234dp"
         android:layout_height="33dp"
         android:layout_marginStart="26dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="26dp"
         android:text="@string/name"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/colorSecundary"
         android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView15"
         app:layout_constraintTop_toBottomOf="@+id/field_Destiny" />
 
@@ -159,9 +164,11 @@
         android:layout_width="234dp"
         android:layout_height="32dp"
         android:layout_marginStart="26dp"
+        android:layout_marginEnd="26dp"
         android:text="@string/fuel"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/colorSecundary"
         android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView19"
         app:layout_constraintTop_toBottomOf="@+id/textkml" />
 
@@ -202,8 +209,8 @@
         android:id="@+id/field_Reason"
         android:layout_width="280dp"
         android:layout_height="64dp"
-        android:layout_marginTop="26dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="6dp"
         android:autofillHints=""
         android:background="@color/colorButton"
         android:cursorVisible="true"
@@ -219,26 +226,25 @@
         app:layout_constraintStart_toEndOf="@+id/textView11"
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
-    <EditText
-        android:id="@+id/field_Destiny"
-        android:layout_width="280dp"
-        android:layout_height="96dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="4dp"
-        android:autofillHints=""
-        android:background="@color/colorButton"
-        android:cursorVisible="true"
-        android:ems="10"
-        android:hint="@string/email"
-        android:inputType="textEmailAddress"
-        android:isScrollContainer="false"
-        android:shadowColor="@color/colorShadow"
-        android:textAlignment="textStart"
-        android:textColor="@color/colorSecundary"
-        android:textColorHint="@color/colorButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView6"
-        app:layout_constraintTop_toBottomOf="@+id/field_Reason" />
+        <EditText
+            android:id="@+id/field_Destiny"
+            android:layout_width="280dp"
+            android:layout_height="96dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="6dp"
+            android:autofillHints=""
+            android:background="@color/colorButton"
+            android:cursorVisible="true"
+            android:ems="10"
+            android:hint="@string/email"
+            android:inputType="textEmailAddress"
+            android:isScrollContainer="false"
+            android:shadowColor="@color/colorShadow"
+            android:textAlignment="textStart"
+            android:textColor="@color/colorSecundary"
+            android:textColorHint="@color/colorButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textView6"
+            app:layout_constraintTop_toBottomOf="@+id/field_Reason" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>

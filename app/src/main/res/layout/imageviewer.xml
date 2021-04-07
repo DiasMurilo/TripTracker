@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:adjustViewBounds="true"
     android:background="@drawable/back">
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/imageView11"
@@ -228,67 +226,69 @@
         android:id="@+id/cancelImageViewer"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="536dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginBottom="6dp"
         android:backgroundTint="@color/colorButton"
         android:text="@string/cancel"
         android:textColor="@color/colorPrimary"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/cameraImageViewer"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="536dp"
+        android:layout_marginBottom="6dp"
         android:backgroundTint="@color/colorButton"
         android:text="@string/camera"
         android:textColor="@color/colorPrimary"
-        app:layout_constraintStart_toEndOf="@+id/cancelImageViewer"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/saveImageViewer"
+        app:layout_constraintStart_toEndOf="@+id/cancelImageViewer" />
 
     <Button
         android:id="@+id/saveImageViewer"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="536dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="6dp"
         android:backgroundTint="@color/colorButton"
         android:text="@string/save"
         android:textColor="@color/colorPrimary"
-        app:layout_constraintStart_toEndOf="@+id/cameraImageViewer"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/textView22"
         android:layout_width="131dp"
         android:layout_height="28dp"
         android:layout_marginStart="6dp"
-        android:layout_marginTop="436dp"
+        android:layout_marginBottom="4dp"
         android:text="@string/value"
         android:textColor="@color/colorPrimary"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/textView16"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView16"
         android:layout_width="131dp"
         android:layout_height="30dp"
         android:layout_marginStart="6dp"
-        android:layout_marginTop="6dp"
+        android:layout_marginBottom="32dp"
         android:text="@string/description"
         android:textColor="@color/colorPrimary"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView22" />
+        app:layout_constraintBottom_toTopOf="@+id/cancelImageViewer"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/field_Value"
-        android:layout_width="245dp"
+        android:layout_width="0dp"
         android:layout_height="28dp"
-        android:layout_marginTop="436dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="4dp"
         android:autofillHints=""
         android:background="@color/colorButton"
         android:cursorVisible="true"
@@ -300,15 +300,17 @@
         android:textAlignment="textStart"
         android:textColor="@color/colorSecundary"
         android:textColorHint="@color/colorButton"
+        app:layout_constraintBottom_toTopOf="@+id/field_Description"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView22"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/textView22" />
 
     <EditText
         android:id="@+id/field_Description"
-        android:layout_width="245dp"
+        android:layout_width="0dp"
         android:layout_height="56dp"
-        android:layout_marginTop="6dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="6dp"
         android:autofillHints=""
         android:background="@color/colorButton"
         android:cursorVisible="true"
@@ -320,9 +322,9 @@
         android:textAlignment="textStart"
         android:textColor="@color/colorSecundary"
         android:textColorHint="@color/colorButton"
+        app:layout_constraintBottom_toTopOf="@+id/cameraImageViewer"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView16"
-        app:layout_constraintTop_toBottomOf="@+id/field_Value" />
+        app:layout_constraintStart_toEndOf="@+id/textView16" />
 
     <ImageView
         android:id="@+id/imageViewerField"
@@ -341,4 +343,3 @@
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>

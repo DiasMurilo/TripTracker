@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
@@ -7,9 +8,6 @@
     android:adjustViewBounds="true"
     android:background="@drawable/back"
     tools:context=".MainActivity">
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/textView"
@@ -41,35 +39,37 @@
         android:id="@+id/tripTracker"
         android:layout_width="150dp"
         android:layout_height="76dp"
-        android:layout_marginTop="120dp"
         android:text="@string/trip_tracker"
         android:textAlignment="center"
         android:textColor="@color/colorPrimary"
         android:textColorHint="@color/colorPrimary"
         android:textSize="30sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonRegister"
+        app:layout_constraintVertical_bias="0.395" />
 
-        <EditText
-            android:id="@+id/editTextEmail"
-            android:layout_width="320dp"
-            android:layout_height="35dp"
-            android:layout_marginStart="25dp"
-            android:autofillHints=""
-            android:background="@color/colorButton"
-            android:cursorVisible="true"
-            android:ems="10"
-            android:hint="@string/email"
-            android:inputType="textEmailAddress"
-            android:isScrollContainer="false"
-            android:shadowColor="@color/colorShadow"
-            android:textAlignment="textStart"
-            android:textColor="@color/colorSecundary"
-            android:textColorHint="@color/colorClearShadow"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+    <EditText
+        android:id="@+id/editTextEmail"
+        android:layout_width="320dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="25dp"
+        android:autofillHints=""
+        android:background="@color/colorButton"
+        android:cursorVisible="true"
+        android:ems="10"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
+        android:isScrollContainer="false"
+        android:shadowColor="@color/colorShadow"
+        android:textAlignment="textStart"
+        android:textColor="@color/colorSecundary"
+        android:textColorHint="@color/colorClearShadow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
         <EditText
             android:id="@+id/editTextPassword"
@@ -109,17 +109,15 @@
         app:layout_constraintStart_toEndOf="@+id/buttonLogin"
         app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            app:layout_constraintBottom_toBottomOf="@+id/tripTracker"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.45"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.706" />
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="148dp"
+        android:layout_height="146dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
