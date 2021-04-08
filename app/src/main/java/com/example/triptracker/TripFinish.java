@@ -72,7 +72,7 @@ public class TripFinish extends MainActivity {
                 String key = dbRef.child("trips").push().getKey();
 
                 Calendar calendar = Calendar.getInstance();
-                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yy");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 String currentDate = sdf.format(calendar.getTime());
 
 

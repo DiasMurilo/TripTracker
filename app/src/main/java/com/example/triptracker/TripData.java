@@ -1,8 +1,11 @@
 package com.example.triptracker;
 
+import android.text.TextUtils;
+
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +21,8 @@ public class TripData {
     public String reason;
     public String destination;
     public String distance;
+    public HashMap<String, Expense> expenses;
+
     public TripData() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
@@ -49,5 +54,58 @@ public class TripData {
         result.put("destination", destination);
         result.put("distance", distance);
         return result;
+    }
+
+    public float getConsumedFuel()
+    {
+        if (Float.parseFloat(kml) > 0)
+        {
+            return Float.parseFloat(distance)/Float.parseFloat(kml);
+        }
+
+        return  0;
+    }
+
+    public int getExpensesCount()
+    {
+        if (expenses != null)
+        {
+            return expenses.size();
+        }
+
+        return  0;
+    }
+
+    public int getExpensesSum()
+    {
+        int total = 0;
+        if (expenses != null)
+        {
+            for (Expense expense : expenses.values())
+            {
+                if (!expense.value.isEmpty())
+                {
+                    total += Float.parseFloat(expense.value);
+                }
+            }
+        }
+
+        return  total;
+    }
+
+    public String getExpensesReference()
+    {
+        ArrayList<String> refs = new ArrayList<>();
+        if (expenses != null)
+        {
+            for (Expense expense : expenses.values())
+            {
+                refs.add(expense.imageRef);
+            }
+
+            return TextUtils.join(", ", refs);
+        }
+
+        return "";
     }
 }
