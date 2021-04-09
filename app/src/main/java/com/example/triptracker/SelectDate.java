@@ -1,10 +1,17 @@
 package com.example.triptracker;
 
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.DashPathEffect;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import android.content.pm.PackageManager;
@@ -14,15 +21,21 @@ import android.graphics.Typeface;
 import android.graphics.pdf.PdfDocument;
 import android.os.Environment;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -30,7 +43,10 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
@@ -42,14 +58,20 @@ public class SelectDate extends MainActivity {
     // declaring width and height for our PDF file.
     private static final int PAGE_HEIGHT = 1120;
     private static final int PAGE_WIDTH = 792;
+    private static final int EXPENSIVE_HEIGHT = 180;
+    private static final int EXPENSIVE_WIDTH = 230;
     private static final int NUMBER_TRIPS_PER_PAGE = 6;
+    private static final int NUMBER_EXPENSES_PER_PAGE = 5;
 
     private int LINE_HEIGHT_TITLE = 25;
     private int LINE_HEIGHT_TEXT = 18;
 
     private Button mCancelSelectDate, mReportSelectDate;
+    private ProgressBar mProgress;
     private DatabaseReference dbRef;
+    private StorageReference storageRef;
     private String uid;
+    private int totalDownloadedAttempts;
     private boolean isButtonClicked;
 
     @Override
@@ -59,6 +81,9 @@ public class SelectDate extends MainActivity {
 
         mCancelSelectDate = findViewById(R.id.cancelSelectDate);
         mReportSelectDate = findViewById(R.id.reportSelectDate);
+        mProgress = findViewById(R.id.progressBar);
+
+        mProgress.setVisibility(View.GONE);
 
         //Retrieve User Preferences
         pref = SelectDate.this.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
@@ -66,6 +91,8 @@ public class SelectDate extends MainActivity {
 
         //Get firebase reference
         dbRef = FirebaseDatabase.getInstance().getReference();
+        storageRef =  FirebaseStorage.getInstance().getReference();
+
         mCancelSelectDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,6 +105,7 @@ public class SelectDate extends MainActivity {
             @Override
             public void onClick(View view) {
                 isButtonClicked = true;
+                mProgress.setVisibility(View.VISIBLE);
                 getTripAndGenerateReport();
             }
         });
@@ -103,15 +131,16 @@ public class SelectDate extends MainActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                    List<TripData> tripDataList = new ArrayList<>();
+                    HashMap<String, TripData> tripDataList = new HashMap<>();
                     for (DataSnapshot trip : snapshot.getChildren()) {
                         TripData tripData = trip.getValue(TripData.class);
-                        tripDataList.add(tripData);
+                        tripDataList.put(trip.getKey(), tripData);
                     }
 
                     if (tripDataList.size() > 0 && isButtonClicked) {
-                        generatePDF(startDate, endDate, tripDataList);
+                        getExpensesImages(startDate, endDate, tripDataList);
                     } else if (isButtonClicked) {
+                        mProgress.setVisibility(View.GONE);
                         Toast.makeText(getBaseContext(), "No trip found for selected dates.", Toast.LENGTH_LONG).show();
                     }
                     isButtonClicked = false;
@@ -125,12 +154,81 @@ public class SelectDate extends MainActivity {
             });
     }
 
-    private void generatePDF(String startDate, String endDate, List<TripData> tripDataList)
-    {
-        int intialCurrentLineY = 20;
+    private void getExpensesImages(final String startDate, final String endDate, final HashMap<String, TripData> tripDataMap) {
+        totalDownloadedAttempts = 0;
+        final HashMap<String, String>  expensesTripMap = new HashMap<>();
+        final List<Pair<Pair<String, String>, Bitmap>> expenseImagesList = new ArrayList<>();
 
-        int pageRemainder = tripDataList.size() % NUMBER_TRIPS_PER_PAGE;
-        int totalPages = (tripDataList.size() / NUMBER_TRIPS_PER_PAGE) + (pageRemainder > 0 ? 1 : 0);
+        for(Map.Entry<String, TripData> tripData : tripDataMap.entrySet())
+        {
+            for(Expense expense : tripData.getValue().getExpenses())
+            {
+                expensesTripMap.put(expense.imageRef, tripData.getKey());
+            }
+        }
+
+        for(final Map.Entry<String, String> expense : expensesTripMap.entrySet())
+        {
+            try
+            {
+                final File localFile = File.createTempFile(expense.getKey(), "");
+                storageRef.child(uid).child(expense.getKey()).getFile(localFile).addOnSuccessListener(new OnSuccessListener< FileDownloadTask.TaskSnapshot >() {
+                    @Override
+                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                        createBitmapFromImage(expenseImagesList, expense, localFile);
+                        generatePdfWhenFinished(startDate, endDate, tripDataMap, expensesTripMap, expenseImagesList);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        generatePdfWhenFinished(startDate, endDate, tripDataMap, expensesTripMap, expenseImagesList);
+                        Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void createBitmapFromImage(final List<Pair<Pair<String, String>, Bitmap>> expenseImagesList, final Map.Entry<String, String> expense, File localFile)
+    {
+        Bitmap  bmp = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+        if (bmp != null)
+        {
+            Bitmap scaledBmp  = Bitmap.createScaledBitmap(bmp, EXPENSIVE_WIDTH, EXPENSIVE_HEIGHT, false);
+            expenseImagesList.add(new Pair(new Pair(expense.getKey(), expense.getValue()), scaledBmp));
+        }
+    }
+
+    private void generatePdfWhenFinished(
+            String startDate,
+            String endDate,
+            HashMap<String, TripData> tripDataMap,
+            HashMap<String, String>  expensesTripMap,
+            List<Pair<Pair<String, String>, Bitmap>> expenseImagesList)
+    {
+        totalDownloadedAttempts++;
+
+        if (expensesTripMap.size() == totalDownloadedAttempts)
+        {
+            generatePDF(startDate, endDate, tripDataMap, expenseImagesList);
+        }
+    }
+
+    private void generatePDF(String startDate, String endDate, HashMap<String, TripData> tripDataMap, List<Pair<Pair<String, String>, Bitmap>> expenseImagesList)
+    {
+        int intialCurrentLineY = 10;
+
+        int pageTripRemainder = tripDataMap.size() % NUMBER_TRIPS_PER_PAGE;
+        int totalTripPages = (tripDataMap.size() / NUMBER_TRIPS_PER_PAGE) + (pageTripRemainder > 0 ? 1 : 0);
+
+        int pageExpensesRemainder = expenseImagesList.size() % NUMBER_EXPENSES_PER_PAGE;
+        int totalExpensesPages = (expenseImagesList.size() / NUMBER_EXPENSES_PER_PAGE) + (pageExpensesRemainder > 0 ? 1 : 0);
+
+        int totalPages = totalTripPages + totalExpensesPages;
+
         int tripListIndexStart = 0;
 
         Calendar calendar = Calendar.getInstance();
@@ -146,10 +244,10 @@ public class SelectDate extends MainActivity {
         // we are calling it to create our PDF.
         PdfDocument.PageInfo myPageInfo = new PdfDocument.PageInfo.Builder(PAGE_WIDTH, PAGE_HEIGHT, totalPages).create();
 
-        for (int i = 0; i < totalPages; i++)
+        for (int pageTripDetails = 0; pageTripDetails < totalTripPages; pageTripDetails++)
         {
-            int tripListIndexEnd = tripListIndexStart + ((tripListIndexStart + NUMBER_TRIPS_PER_PAGE) > tripDataList.size() ? pageRemainder : NUMBER_TRIPS_PER_PAGE) ;
-            List<TripData> tripDataListToPrint = tripDataList.subList(tripListIndexStart,  tripListIndexEnd);
+            int tripListIndexEnd = tripListIndexStart + ((tripListIndexStart + NUMBER_TRIPS_PER_PAGE) > tripDataMap.size() ? pageTripRemainder : NUMBER_TRIPS_PER_PAGE);
+            List<TripData> tripDataListToPrint = getValuesInRange(tripDataMap, tripListIndexStart,  tripListIndexEnd);
 
             // below line is used for setting start page for our PDF file.
             PdfDocument.Page myPage = pdfDocument.startPage(myPageInfo);
@@ -158,7 +256,7 @@ public class SelectDate extends MainActivity {
             Canvas canvas = myPage.getCanvas();
 
             int currentLineY = intialCurrentLineY;
-            currentLineY = writeTextNextLine(canvas, PAGE_WIDTH/2, currentLineY, "TRIP REPORT", getTitleFontBold(), LINE_HEIGHT_TITLE);
+            currentLineY = writeTextNextLine(canvas, PAGE_WIDTH/2, currentLineY, "TRIP REPORT - DETAILS", getTitleFontBold(), LINE_HEIGHT_TITLE);
             currentLineY = writeTextNextLine(canvas, PAGE_WIDTH/2, currentLineY, "From: " + startDate + " To: " + endDate, getTitleFontItalic(), LINE_HEIGHT_TITLE);
             currentLineY = writeLine(canvas, currentLineY);
 
@@ -168,22 +266,101 @@ public class SelectDate extends MainActivity {
                 currentLineY = writeLineBetweenTrips(canvas, currentLineY);
             }
 
+            writeFooter(canvas, pageTripDetails + 1 , totalPages);
+
             // after adding all attributes to our PDF file we will be finishing our page.
             pdfDocument.finishPage(myPage);
 
             tripListIndexStart += NUMBER_TRIPS_PER_PAGE;
         }
 
-        createPdfDocument(dateTimeNow, pdfDocument);
+        int expenseListIndexStart = 0;
+
+        for (int pageExpense = 0; pageExpense < totalExpensesPages; pageExpense++)
+        {
+            int expenseListIndexEnd = expenseListIndexStart + ((expenseListIndexStart + NUMBER_EXPENSES_PER_PAGE) > expenseImagesList.size() ? pageExpensesRemainder : NUMBER_EXPENSES_PER_PAGE);
+            List<Pair<Pair<String, String>, Bitmap>>  expenseListToPrint = expenseImagesList.subList(expenseListIndexStart,  expenseListIndexEnd);
+
+            // below line is used for setting start page for our PDF file.
+            PdfDocument.Page myPage = pdfDocument.startPage(myPageInfo);
+
+            // creating a variable for canvas from our page of PDF.
+            Canvas canvas = myPage.getCanvas();
+
+            int currentLineY = intialCurrentLineY;
+            currentLineY = writeTextNextLine(canvas, PAGE_WIDTH/2, currentLineY, "TRIP REPORT - EXPENSES", getTitleFontBold(), LINE_HEIGHT_TITLE);
+            currentLineY = writeTextNextLine(canvas, PAGE_WIDTH/2, currentLineY, "From: " + startDate + " To: " + endDate, getTitleFontItalic(), LINE_HEIGHT_TITLE);
+            currentLineY = writeLine(canvas, currentLineY);
+
+            for (Pair<Pair<String, String>, Bitmap> expense : expenseListToPrint)
+            {
+                String tripKey = expense.first.second;
+                String expenseRef = expense.first.first;
+
+                TripData tripData = tripDataMap.get(tripKey);
+                Expense expenseData = tripData.expenses.get(expenseRef);
+
+                Bitmap bitmap = expense.second;
+                canvas.drawBitmap(bitmap, 25, currentLineY, new Paint());
+                writeExpenseData(tripData, expenseData, canvas, currentLineY);
+
+                currentLineY += EXPENSIVE_HEIGHT + 25;
+            }
+
+            writeFooter(canvas, pageExpense + totalTripPages + 1 , totalPages);
+
+            // after adding all attributes to our PDF file we will be finishing our page.
+            pdfDocument.finishPage(myPage);
+
+            expenseListIndexStart += NUMBER_EXPENSES_PER_PAGE;
+        }
+
+        File report  = createPdfDocument(dateTimeNow, pdfDocument);
 
         // after storing our pdf to that
         // location we are closing our PDF file.
         pdfDocument.close();
+        mProgress.setVisibility(View.GONE);
+
+        sendReportByEmail(report);
     }
 
-    private void writePage()
+    private void sendReportByEmail(File report)
     {
+        Uri reportURI = FileProvider.getUriForFile(this, getApplicationContext().getPackageName() + ".provider", report);;
 
+        // Initiate intent to send e-mail
+        Intent iSend = new Intent(Intent.ACTION_SEND);
+
+        iSend.setType("message/rfc822");
+        iSend.putExtra(Intent.EXTRA_EMAIL, "a@dcu.ie");
+        iSend.putExtra(Intent.EXTRA_SUBJECT, "Test");
+        iSend.putExtra(Intent.EXTRA_TEXT, "body");
+        iSend.putExtra(Intent.EXTRA_STREAM, reportURI);
+
+        // Try send email and handle exception if the case
+        try {
+            startActivity(Intent.createChooser(iSend, "Send mail..."));
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+    }
+
+    private void writeFooter(Canvas canvas, int currentPage, int totalPage)
+    {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+        String dateTimeNow = sdf.format(calendar.getTime());
+
+        int currentLineY = PAGE_HEIGHT  - 40;
+        currentLineY = writeLine(canvas, currentLineY);
+        currentLineY += 10;
+
+        canvas.drawText(dateTimeNow, 25, currentLineY, getFooterFontLeft());
+        canvas.drawText("Page " + currentPage + " of " + totalPage, PAGE_WIDTH - 50, currentLineY, getFooterFontRight());
     }
 
     private int writeLine(Canvas canvas, int y)
@@ -222,25 +399,35 @@ public class SelectDate extends MainActivity {
         int startX = 25;
         int middleX = PAGE_WIDTH/2;
 
-        currentLineY = writeTextNextLine(canvas, startX, currentLineY, "Date: " + tripData.date , getTripFont(), LINE_HEIGHT_TEXT);
-        currentLineY = writeTextNextLine(canvas, startX, currentLineY, "Destination: " + tripData.destination , getTripFont(), LINE_HEIGHT_TEXT);
-        currentLineY = writeTextNextLine(canvas, startX, currentLineY, "Driver: " + tripData.name , getTripFont(), LINE_HEIGHT_TEXT);
+        currentLineY = writeTextNextLine(canvas, startX, currentLineY, "Date: " + tripData.date , getFont(), LINE_HEIGHT_TEXT);
+        currentLineY = writeTextNextLine(canvas, startX, currentLineY, "Destination: " + tripData.destination , getFont(), LINE_HEIGHT_TEXT);
+        currentLineY = writeTextNextLine(canvas, startX, currentLineY, "Driver: " + tripData.name , getFont(), LINE_HEIGHT_TEXT);
 
-        writeTextNextLine(canvas, startX, currentLineY, "Company: " + tripData.company , getTripFont(), LINE_HEIGHT_TEXT);
-        currentLineY = writeTextNextLine(canvas, middleX, currentLineY, "Car reference: " + tripData.carRef , getTripFont(), LINE_HEIGHT_TEXT);
+        writeTextNextLine(canvas, startX, currentLineY, "Company: " + tripData.company , getFont(), LINE_HEIGHT_TEXT);
+        currentLineY = writeTextNextLine(canvas, middleX, currentLineY, "Car reference: " + tripData.carRef , getFont(), LINE_HEIGHT_TEXT);
 
-        writeTextNextLine(canvas, startX, currentLineY, "Distance: " + tripData.distance , getTripFont(), LINE_HEIGHT_TEXT);
-        currentLineY = writeTextNextLine(canvas, middleX, currentLineY, "KM/L: " + tripData.kml , getTripFont(), LINE_HEIGHT_TEXT);
+        writeTextNextLine(canvas, startX, currentLineY, "Distance: " + tripData.distance , getFont(), LINE_HEIGHT_TEXT);
+        currentLineY = writeTextNextLine(canvas, middleX, currentLineY, "KM/L: " + tripData.kml , getFont(), LINE_HEIGHT_TEXT);
 
-        writeTextNextLine(canvas, startX, currentLineY, "Fuel: " + tripData.fuel , getTripFont(), LINE_HEIGHT_TEXT);
-        currentLineY = writeTextNextLine(canvas, middleX, currentLineY, "Consumed fuel: " + tripData.getConsumedFuel() , getTripFont(), LINE_HEIGHT_TEXT);
+        writeTextNextLine(canvas, startX, currentLineY, "Fuel: " + tripData.fuel , getFont(), LINE_HEIGHT_TEXT);
+        currentLineY = writeTextNextLine(canvas, middleX, currentLineY, "Consumed fuel: " + tripData.getConsumedFuel() , getFont(), LINE_HEIGHT_TEXT);
 
 
-        writeTextNextLine(canvas, startX, currentLineY, "Expenses count: " + tripData.getExpensesCount() , getTripFont(), LINE_HEIGHT_TEXT);
-        currentLineY = writeTextNextLine(canvas, middleX, currentLineY, "Expenses total: " + tripData.getExpensesSum() , getTripFont(), LINE_HEIGHT_TEXT);
-        currentLineY = writeTextNextLine(canvas, startX, currentLineY, "Expenses receipt ref.: " + tripData.getExpensesReference(), getTripFont(), LINE_HEIGHT_TEXT);
+        writeTextNextLine(canvas, startX, currentLineY, "Expenses count: " + tripData.getExpensesCount() , getFont(), LINE_HEIGHT_TEXT);
+        currentLineY = writeTextNextLine(canvas, middleX, currentLineY, "Expenses total: " + tripData.getExpensesSum() , getFont(), LINE_HEIGHT_TEXT);
+        currentLineY = writeTextNextLine(canvas, startX, currentLineY, tripData.getExpenseInfo(), getFontItalic(), LINE_HEIGHT_TEXT);
 
         return currentLineY;
+    }
+
+    private void writeExpenseData(TripData tripData, Expense expenseData, Canvas canvas, int currentLineY)
+    {
+        // Left margin
+        int startX = EXPENSIVE_WIDTH + 40;
+        currentLineY = writeTextNextLine(canvas, startX, currentLineY, "Trip Date: " + tripData.date , getFont(), LINE_HEIGHT_TEXT);
+        currentLineY = writeTextNextLine(canvas, startX, currentLineY, "Trip Destination: " + tripData.destination , getFont(), LINE_HEIGHT_TEXT);
+        currentLineY = writeTextNextLine(canvas, startX, currentLineY, "Expense value: " + expenseData.value , getFont(), LINE_HEIGHT_TEXT);
+        writeTextNextLine(canvas, startX, currentLineY, "Expense description: " + expenseData.description , getFont(), LINE_HEIGHT_TEXT);
     }
 
     private Paint getTitleFontBold()
@@ -280,18 +467,18 @@ public class SelectDate extends MainActivity {
     {
         Paint font = new Paint();
 
+        // below line is used for adding typeface for our text which we will be adding in our PDF file.
+        font.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
+
         // below line is sued for setting color of our text inside our PDF file.
         font.setColor(ContextCompat.getColor(this, R.color.black));
 
         return font;
     }
 
-    private Paint getTripFont()
+    private Paint getFont()
     {
         Paint font = getBaseFont();
-
-        // below line is used for adding typeface for our text which we will be adding in our PDF file.
-        font.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
 
         // below line is used for setting text size which we will be displaying in our PDF file.
         font.setTextSize(15);
@@ -299,18 +486,53 @@ public class SelectDate extends MainActivity {
         return font;
     }
 
-    private void createPdfDocument(String dateTIme, PdfDocument pdfDocument) {
-        String fileName = dateTIme + ".pdf";
+    private Paint getFontItalic()
+    {
+        Paint font = getBaseFont();
 
-        File myDir = new File(Environment.getExternalStorageDirectory() + "/TripTrackerReports");
-        if (!myDir.exists()) {
-            myDir.mkdirs();
-        }
+        // below line is used for adding typeface for our text which we will be adding in our PDF file.
+        font.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.ITALIC));
 
-        // below line is used to set the name of our PDF file and its path.
-        File file = new File(myDir, fileName);
+        // below line is used for setting text size which we will be displaying in our PDF file.
+        font.setTextSize(15);
 
-        try {
+        return font;
+    }
+
+
+    private Paint getFooterFontLeft()
+    {
+        Paint font = getFooterFont();
+        font.setTextAlign(Paint.Align.LEFT);
+        return font;
+    }
+
+    private Paint getFooterFontRight()
+    {
+        Paint font = getFooterFont();
+        font.setTextAlign(Paint.Align.RIGHT);
+        return font;
+    }
+
+    private Paint getFooterFont()
+    {
+        Paint font = getBaseFont();
+
+        // below line is used for setting text size which we will be displaying in our PDF file.
+        font.setTextSize(11);
+
+        return font;
+    }
+
+    private File createPdfDocument(String fileName, PdfDocument pdfDocument) {
+        File file = null;
+        try
+        {
+            File filePath = new File(getFilesDir(), "TripTrackReports");
+            file = new File(filePath,  fileName + ".pdf");
+
+            Uri fileUri = FileProvider.getUriForFile(getApplicationContext(), "com.example.triptracker.provider", file);
+
             // after creating a file name we will write our PDF file to that location.
             pdfDocument.writeTo(new FileOutputStream(file));
 
@@ -320,6 +542,8 @@ public class SelectDate extends MainActivity {
             // below line is used to handle error
             e.printStackTrace();
         }
+
+        return  file;
     }
 
     private boolean checkPermission() {
@@ -348,8 +572,16 @@ public class SelectDate extends MainActivity {
                     getTripAndGenerateReport();
                 } else {
                     Toast.makeText(this, "Permission denied.", Toast.LENGTH_SHORT).show();
+                    mProgress.setVisibility(View.GONE);
                 }
+            } else {
+                mProgress.setVisibility(View.GONE);
             }
         }
+    }
+
+    public List<TripData> getValuesInRange(HashMap<String, TripData> map, Integer start, Integer end) {
+        ArrayList<TripData> list =  new ArrayList<>(map.values());
+        return list.subList(start, end);
     }
 }

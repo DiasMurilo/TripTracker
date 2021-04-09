@@ -6,6 +6,7 @@ import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -93,19 +94,31 @@ public class TripData {
         return  total;
     }
 
-    public String getExpensesReference()
-    {
-        ArrayList<String> refs = new ArrayList<>();
-        if (expenses != null)
-        {
-            for (Expense expense : expenses.values())
-            {
-                refs.add(expense.imageRef);
-            }
-
-            return TextUtils.join(", ", refs);
+    public String getExpenseInfo() {
+        if (expenses != null && expenses.size() > 0) {
+            return  "This trip has expenses, check expenses section on this report.";
         }
 
         return "";
+    }
+
+    public ArrayList<String> getExpensesImageReference()
+    {
+        ArrayList<String> refs = new ArrayList<>();
+        for (Expense expense : getExpenses())
+        {
+            refs.add(expense.imageRef);
+        }
+        return refs;
+    }
+
+    public Collection<Expense> getExpenses()
+    {
+        if (expenses == null)
+        {
+            return new ArrayList<Expense>();
+        }
+
+        return expenses.values();
     }
 }

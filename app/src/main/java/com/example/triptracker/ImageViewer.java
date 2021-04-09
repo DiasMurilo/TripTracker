@@ -33,9 +33,6 @@ import java.util.Map;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
-import com.google.firebase.storage.UploadTask;
-
-
 
 
 public class ImageViewer extends MainActivity {
@@ -97,7 +94,6 @@ public class ImageViewer extends MainActivity {
                 Toast.makeText(getApplicationContext(), "Action Canceled",
                         Toast.LENGTH_SHORT).show();
                 intentBackToHome();
-                // Call 3_HOME
             }
         });
 
@@ -130,71 +126,68 @@ public class ImageViewer extends MainActivity {
 
                     final String uid = pref.getString("uid", "");
 
-                /*Uri file = Uri.fromFile(new File(String.valueOf(cameraImageURI)));
-                StorageReference triptrackerRef = storageRef.child(String.valueOf(uid) + file.getLastPathSegment());
-                uploadTask = triptrackerRef.putFile(file);*/
-                    String receiptName = currentDate;
-                    String receiptPathName = uid + "/" + receiptName;
-                    StorageReference tripTrackerRef = storageRef.child(receiptPathName);
-                    mImageViewer.setDrawingCacheEnabled(true);
-                    mImageViewer.buildDrawingCache();
-                    Bitmap bitmap = ((BitmapDrawable) mImageViewer.getDrawable()).getBitmap();
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                    byte[] data = baos.toByteArray();
+                String receiptName = currentDate;
+                String receiptPathName = uid + "/" + receiptName;
+                StorageReference tripTrackerRef = storageRef.child(receiptPathName);
+                mImageViewer.setDrawingCacheEnabled(true);
+                mImageViewer.buildDrawingCache();
+                Bitmap bitmap = ((BitmapDrawable) mImageViewer.getDrawable()).getBitmap();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] data = baos.toByteArray();
 
-                    UploadTask uploadTask = tripTrackerRef.putBytes(data);
-                    uploadTask.addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception exception) {
-                            // Handle unsuccessful uploads
-                        }
-                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                            // ...
-                        }
-                    });
+                UploadTask uploadTask = tripTrackerRef.putBytes(data);
+                uploadTask.addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Handle unsuccessful uploads
+                    }
+                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                        // ...
+                    }
+                });
 
-                    imageRef = receiptName;
-                    String fullURL = iURL;
-                    String excludePath = "https://triptracker-821dc-default-rtdb.europe-west1.firebasedatabase.app/";
-                    String pathToFirebase = fullURL.replace(excludePath, "");
-                    pathToFirebase = pathToFirebase ;//+ "/expenses/" + receiptName + "/";
-                    AddExpenses newExpense = new AddExpenses(imageRef, value, description);
-                    Map<String, Object> expense = newExpense.toMap();
+                imageRef = receiptName;
+                String fullURL = iURL;
+                String excludePath = "https://triptracker-821dc-default-rtdb.europe-west1.firebasedatabase.app/";
+                String pathToFirebase = fullURL.replace(excludePath, "");
+                pathToFirebase = pathToFirebase ;//+ "/expenses/" + receiptName + "/";
+                Expense newExpense = new Expense(imageRef, value, description);
+                Map<String, Object> expense = newExpense.toMap();
 
-                    //String key = dbRef.child("trips").push().getKey();
+                //String key = dbRef.child("trips").push().getKey();
 
-                    FirebaseDatabase database = FirebaseDatabase.getInstance();
-                    DatabaseReference myRef = database.getReference(pathToFirebase);
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference myRef = database.getReference(pathToFirebase);
 
-                    Map<String, Object> childUpdates = new HashMap<>();
-                    childUpdates.put("/expenses/" + receiptName + "/", expense);
+                Map<String, Object> childUpdates = new HashMap<>();
+                childUpdates.put("/expenses/" + receiptName + "/", expense);
 
-                    myRef.updateChildren(childUpdates)
-                            .addOnSuccessListener(
-                                    new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            Toast.makeText( getBaseContext(), "Trip Register successfully added!", Toast.LENGTH_SHORT).show();
-                                            intentBackToHome();
-                                        }
-                                    })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText( getBaseContext(), "Trip Register Failed, Check you connection", Toast.LENGTH_SHORT).show();
-                                    Log.w("onFailure", "Failed to read value.");
-                                }
-                            });
+                myRef.updateChildren(childUpdates)
+                        .addOnSuccessListener(
+                                new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Toast.makeText( getBaseContext(), "Trip Register successfully added!", Toast.LENGTH_SHORT).show();
+                                        intentBackToHome();
+                                    }
+                                })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText( getBaseContext(), "Trip Register Failed, Check you connection", Toast.LENGTH_SHORT).show();
+                                Log.w("onFailure", "Failed to read value.");
+                            }
+                        });
 
                     //FirebaseDatabase database = FirebaseDatabase.getInstance();
                     //DatabaseReference myRef = database.getReference(pathToFirebase);
                     //myRef.setValue(receiptName);
                     //childUpdates.put("/trips/" + uid + "/" + key, trip);
-                }
+            }
             }
         });
 
@@ -244,7 +237,7 @@ public class ImageViewer extends MainActivity {
      * @param resultCode
      * @param data
      */
-    // Recognise the action of piture taken and set in the ImageView layout
+    // Recognise the action of picture taken and set in the ImageView layout
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
