@@ -58,7 +58,7 @@ public class ImageViewer extends MainActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.imageviewer);
+        setContentView(R.layout.image_viewer);
 
 
         mButtonCancelImageViewer = findViewById(R.id.cancelImageViewer);
@@ -217,7 +217,7 @@ public class ImageViewer extends MainActivity {
             try {
                 // Continue only if the File was successfully created
                 if (photoFile != null) {
-                    cameraImageURI = FileProvider.getUriForFile(getApplicationContext(), "Android/data/com.example.triptracker/files/Pictures", photoFile);
+                    cameraImageURI = FileProvider.getUriForFile(getApplicationContext(), "com.example.triptracker.provider", photoFile);
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, cameraImageURI);
                     startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
                 }

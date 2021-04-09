@@ -46,7 +46,7 @@
                 <action android:name="android.intent.action.reportviewer" />
             </intent-filter>
         </activity>
-        <activity android:name=".SelectDate">
+        <activity android:name=".SendReport">
             <intent-filter>
                 <action android:name="android.intent.action.selectdate" />
             </intent-filter>
@@ -79,7 +79,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="Android/data/com.example.triptracker/files/Pictures"
+            android:authorities="com.example.triptracker.provider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

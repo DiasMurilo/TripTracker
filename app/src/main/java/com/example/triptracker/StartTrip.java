@@ -18,7 +18,7 @@ public class StartTrip extends MainActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.starttrip);
+        setContentView(R.layout.start_trip);
 
 
         mCancelBefore = findViewById(R.id.cancelBefore);

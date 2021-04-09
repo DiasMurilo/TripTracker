@@ -59,7 +59,7 @@ public class Home extends MainActivity {
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(),"Select Dates",
                         Toast.LENGTH_LONG).show();
-                Intent homeToSelectDate = new Intent(Home.this, SelectDate.class);
+                Intent homeToSelectDate = new Intent(Home.this, SendReport.class);
                 startActivity(homeToSelectDate);
                 // Call 9_SELECT_DATE
             }

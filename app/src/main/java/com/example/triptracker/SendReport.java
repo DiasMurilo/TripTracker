@@ -1,6 +1,5 @@
 package com.example.triptracker;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -43,7 +42,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,7 +49,7 @@ import java.util.Map;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
-public class SelectDate extends MainActivity {
+public class SendReport extends MainActivity {
     // constant code for runtime permissions
     private static final int PERMISSION_REQUEST_CODE = 200;
 
@@ -77,7 +75,7 @@ public class SelectDate extends MainActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.selectdate);
+        setContentView(R.layout.send_report);
 
         mCancelSelectDate = findViewById(R.id.cancelSelectDate);
         mReportSelectDate = findViewById(R.id.reportSelectDate);
@@ -86,7 +84,7 @@ public class SelectDate extends MainActivity {
         mProgress.setVisibility(View.GONE);
 
         //Retrieve User Preferences
-        pref = SelectDate.this.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        pref = SendReport.this.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         uid = pref.getString("uid", "");
 
         //Get firebase reference
@@ -327,23 +325,19 @@ public class SelectDate extends MainActivity {
 
     private void sendReportByEmail(File report)
     {
-        Uri reportURI = FileProvider.getUriForFile(this, getApplicationContext().getPackageName() + ".provider", report);;
+        Uri reportURI = FileProvider.getUriForFile(getApplicationContext(), "com.example.triptracker.provider", report);
 
         // Initiate intent to send e-mail
         Intent iSend = new Intent(Intent.ACTION_SEND);
 
-        iSend.setType("message/rfc822");
-        iSend.putExtra(Intent.EXTRA_EMAIL, "a@dcu.ie");
-        iSend.putExtra(Intent.EXTRA_SUBJECT, "Test");
-        iSend.putExtra(Intent.EXTRA_TEXT, "body");
+        iSend.setType("application/pdf");
         iSend.putExtra(Intent.EXTRA_STREAM, reportURI);
 
-        // Try send email and handle exception if the case
+        // Try send report and handle exception if the case
         try {
-            startActivity(Intent.createChooser(iSend, "Send mail..."));
-        } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+            startActivity(Intent.createChooser(iSend, "Send report"));
         } catch (Exception ex) {
+            Toast.makeText(this, "Error in sending PDF, please try again.", Toast.LENGTH_SHORT).show();
             ex.printStackTrace();
         }
 
@@ -528,10 +522,7 @@ public class SelectDate extends MainActivity {
         File file = null;
         try
         {
-            File filePath = new File(getFilesDir(), "TripTrackReports");
-            file = new File(filePath,  fileName + ".pdf");
-
-            Uri fileUri = FileProvider.getUriForFile(getApplicationContext(), "com.example.triptracker.provider", file);
+            file = new File(getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),  fileName + ".pdf");
 
             // after creating a file name we will write our PDF file to that location.
             pdfDocument.writeTo(new FileOutputStream(file));

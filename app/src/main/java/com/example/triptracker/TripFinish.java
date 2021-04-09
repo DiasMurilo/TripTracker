@@ -25,7 +25,7 @@ public class TripFinish extends MainActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.tripfinish);
+        setContentView(R.layout.trip_finish);
 
         mCancelFinish = findViewById(R.id.cancelFinish);
         mSaveFinish = findViewById(R.id.saveFinish);
