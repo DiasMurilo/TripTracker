@@ -1,16 +1,25 @@
 package com.example.triptracker;
 
+import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.DashPathEffect;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import android.content.pm.PackageManager;
@@ -32,6 +41,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
@@ -40,16 +50,21 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 public class SendReport extends MainActivity {
+
+    private static final String TAG = "SendReport";
     // constant code for runtime permissions
     private static final int PERMISSION_REQUEST_CODE = 200;
 
@@ -64,24 +79,37 @@ public class SendReport extends MainActivity {
     private int LINE_HEIGHT_TITLE = 25;
     private int LINE_HEIGHT_TEXT = 18;
 
-    private Button mCancelSelectDate, mReportSelectDate;
+    private Button mCancelSelectDate, mReportSelectDate, mRepFrom, mRepTo;
+    private TextView mTextFrom, mTextTo;
     private ProgressBar mProgress;
     private DatabaseReference dbRef;
     private StorageReference storageRef;
-    private String uid;
+    private String uid, reportFrom, reportTo;
     private int totalDownloadedAttempts;
-    private boolean isButtonClicked;
+    private boolean isButtonClicked, whatDate;
+    private DatePickerDialog.OnDateSetListener mDateSetListener;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.send_report);
 
-        mCancelSelectDate = findViewById(R.id.cancelSelectDate);
+        mCancelSelectDate = findViewById(R.id.reportCancel);
         mReportSelectDate = findViewById(R.id.reportSelectDate);
         mProgress = findViewById(R.id.progressBar);
+        mRepFrom = findViewById(R.id.repFrom);
+        mRepTo = findViewById(R.id.repTo);
+        mTextFrom = findViewById(R.id.textFrom);
+        mTextTo = findViewById(R.id.textTo);
 
         mProgress.setVisibility(View.GONE);
+
+
+
+
+
 
         //Retrieve User Preferences
         pref = SendReport.this.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
@@ -90,6 +118,49 @@ public class SendReport extends MainActivity {
         //Get firebase reference
         dbRef = FirebaseDatabase.getInstance().getReference();
         storageRef =  FirebaseStorage.getInstance().getReference();
+
+        //Disable button "Send Report"
+        mReportSelectDate.setEnabled(false);
+
+        mRepFrom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                whatDate = false;
+                displayCalendar();
+            }
+        });
+
+        mRepTo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                whatDate = true;
+                displayCalendar();
+            }
+        });
+
+        mDateSetListener = new DatePickerDialog.OnDateSetListener(){
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month ,int day){
+                month = month + 1;
+
+                String displayDate = LocalDate.of( year , month , day ).format( DateTimeFormatter.ofPattern( "MM/dd/uuuu" ) );
+
+                Log.d(TAG, "onDateSet: yyyy/mm/dd: " + year + "/" + month + "/" + day);
+                //String date = year + "-" + month + "-" + day;
+                if (whatDate == true)
+                {
+                    mTextTo.setText(displayDate);
+                    reportTo = LocalDate.of( year , month , day ).format( DateTimeFormatter.ofPattern( "uuuu-MM-dd" ) );
+                }
+                else{
+                    mTextFrom.setText(displayDate);
+                    reportFrom = LocalDate.of( year , month , day ).format( DateTimeFormatter.ofPattern( "uuuu-MM-dd" ) );
+                }
+
+                enableReportButton();
+            }
+        };
 
         mCancelSelectDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,8 +191,8 @@ public class SendReport extends MainActivity {
     }
 
     private void getTrips() {
-        final String startDate = "2021-03-01";
-        final String endDate = "2021-05-01";
+        final String startDate = reportFrom;
+        final String endDate = reportTo;
 
         // Read data from the database and get reserved days for the selected book
         dbRef.child("trips").child(uid).orderByChild("date").startAt(startDate).endAt(endDate).addValueEventListener(
@@ -568,6 +639,33 @@ public class SendReport extends MainActivity {
             } else {
                 mProgress.setVisibility(View.GONE);
             }
+        }
+    }
+
+    private void displayCalendar(){
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog dialog = new DatePickerDialog(
+                SendReport.this,
+                android.R.style.Theme_Holo_Light_Dialog_NoActionBar_MinWidth,
+                mDateSetListener,
+                year,month,day);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+    }
+
+
+    public void enableReportButton(){
+        if(mTextFrom.equals("") || mTextTo.equals(""))
+        {
+            mReportSelectDate.setEnabled(false);
+        }
+        else
+        {
+            mReportSelectDate.setEnabled(true);
         }
     }
 

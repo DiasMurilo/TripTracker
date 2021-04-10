@@ -30,7 +30,8 @@
         android:text="@string/report"
         android:textColor="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        />
 
     <TextView
         android:id="@+id/textView20"
@@ -47,7 +48,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/startDate"
+        android:id="@+id/reportCancel"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="6dp"
@@ -58,29 +59,31 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/textView22"
-        android:layout_width="73dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="156dp"
+    <Button
+        android:id="@+id/repFrom"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="57dp"
+        android:backgroundTint="@color/colorPrimary"
         android:text="@string/from"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/colorButton"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView20" />
 
-    <TextView
-        android:id="@+id/textView21"
-        android:layout_width="73dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="6dp"
+    <Button
+        android:id="@+id/repTo"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/colorPrimary"
         android:text="@string/to"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/colorButton"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView22" />
+        app:layout_constraintTop_toBottomOf="@+id/repFrom" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -92,5 +95,25 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textFrom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="144dp"
+        android:textSize="24sp"
+        app:layout_constraintStart_toEndOf="@+id/repFrom"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textTo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="36dp"
+        android:textSize="24sp"
+        app:layout_constraintStart_toEndOf="@+id/repTo"
+        app:layout_constraintTop_toBottomOf="@+id/textFrom" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
