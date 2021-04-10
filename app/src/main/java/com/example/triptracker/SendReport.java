@@ -236,28 +236,34 @@ public class SendReport extends MainActivity {
             }
         }
 
-        for(final Map.Entry<String, String> expense : expensesTripMap.entrySet())
-        {
-            try
-            {
-                final File localFile = File.createTempFile(expense.getKey(), "");
-                storageRef.child(uid).child(expense.getKey()).getFile(localFile).addOnSuccessListener(new OnSuccessListener< FileDownloadTask.TaskSnapshot >() {
-                    @Override
-                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                        createBitmapFromImage(expenseImagesList, expense, localFile);
-                        generatePdfWhenFinished(startDate, endDate, tripDataMap, expensesTripMap, expenseImagesList);
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        generatePdfWhenFinished(startDate, endDate, tripDataMap, expensesTripMap, expenseImagesList);
-                        Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                });
+        if (expensesTripMap.size() == 0 ) {
+            generatePDF(startDate, endDate, tripDataMap, expenseImagesList);
+        } else {
 
-            } catch (IOException e) {
-                e.printStackTrace();
+            for(final Map.Entry<String, String> expense : expensesTripMap.entrySet())
+            {
+                try
+                {
+                    final File localFile = File.createTempFile(expense.getKey(), "");
+                    storageRef.child(uid).child(expense.getKey()).getFile(localFile).addOnSuccessListener(new OnSuccessListener< FileDownloadTask.TaskSnapshot >() {
+                        @Override
+                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                            createBitmapFromImage(expenseImagesList, expense, localFile);
+                            generatePdfWhenFinished(startDate, endDate, tripDataMap, expensesTripMap, expenseImagesList);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            generatePdfWhenFinished(startDate, endDate, tripDataMap, expensesTripMap, expenseImagesList);
+                            Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
+
         }
     }
 
