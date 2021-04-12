@@ -35,8 +35,8 @@
 
     <TextView
         android:id="@+id/textView20"
-        android:layout_width="270dp"
-        android:layout_height="60dp"
+        android:layout_width="282dp"
+        android:layout_height="61dp"
         android:layout_marginTop="16dp"
         android:text="@string/select_dates"
         android:textAlignment="center"
@@ -60,7 +60,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/repFrom"
+        android:id="@+id/reportFrom"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="6dp"
@@ -73,7 +73,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView20" />
 
     <Button
-        android:id="@+id/repTo"
+        android:id="@+id/reportTo"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="6dp"
@@ -83,7 +83,7 @@
         android:textColor="@color/colorButton"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/repFrom" />
+        app:layout_constraintTop_toBottomOf="@+id/reportFrom" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -103,7 +103,7 @@
         android:layout_marginStart="44dp"
         android:layout_marginTop="144dp"
         android:textSize="24sp"
-        app:layout_constraintStart_toEndOf="@+id/repFrom"
+        app:layout_constraintStart_toEndOf="@+id/reportFrom"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -113,7 +113,7 @@
         android:layout_marginStart="44dp"
         android:layout_marginTop="36dp"
         android:textSize="24sp"
-        app:layout_constraintStart_toEndOf="@+id/repTo"
+        app:layout_constraintStart_toEndOf="@+id/reportTo"
         app:layout_constraintTop_toBottomOf="@+id/textFrom" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

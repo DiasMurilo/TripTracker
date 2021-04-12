@@ -45,10 +45,19 @@ public class TripFinish extends MainActivity {
         final String pFuel = pref.getString("fuel", "");
         final String pReason = pref.getString("tripReason", "");
         final String pDestiny = pref.getString("tripDestiny", "");
-        final String pDistance = pref.getString("distance", getIntent().getExtras().get("distance").toString());
+        final String pDistance = getIntent().getExtras().get("distance").toString();
 
         // Print trip data to user
-        String newData = "Name: " + pName + "\n" + "Reason: " + pReason + "\n" + "Destiny: " + pDestiny + "\n" + "Company: " + pCompany + "\n" + "Car Reference: " + pCarRef + "\n" + "km/l: " + pkml + "\n" + "Fuel: " + pFuel + "\n" + "Distance: " + pDistance + "\n";
+        String newData =
+                "Name:" + pName + "\n" +
+                "Reason: " + pReason + "\n" +
+                "Destination: " + pDestiny + "\n" +
+                "Company: " + pCompany + "\n" +
+                "Car Reference: " + pCarRef + "\n" +
+                "Autonomy: " + pkml + " km/l" + "\n" +
+                "Fuel: " + pFuel + "\n" +
+                "Distance: " + pDistance + " km";
+
         mFinishedTrip.setText(newData);
         mCancelFinish.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -71,17 +71,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="109dp"
-            android:layout_height="32dp"
-            android:layout_marginStart="6dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/destiny"
-            android:textColor="@color/colorPrimary"
-            android:textSize="24sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/field_Reason" />
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="141dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/destiny"
+        android:textColor="@color/colorPrimary"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/field_Reason" />
 
     <TextView
         android:id="@+id/textView15"
@@ -207,14 +207,16 @@
 
     <EditText
         android:id="@+id/field_Reason"
-        android:layout_width="280dp"
+        android:layout_width="0dp"
         android:layout_height="64dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="48dp"
         android:layout_marginEnd="6dp"
         android:autofillHints=""
         android:background="@color/colorButton"
         android:cursorVisible="true"
         android:ems="10"
+        android:gravity="start"
         android:hint="@string/email"
         android:inputType="textEmailAddress"
         android:isScrollContainer="false"
@@ -222,29 +224,34 @@
         android:textAlignment="textStart"
         android:textColor="@color/colorSecundary"
         android:textColorHint="@color/colorButton"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView11"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
-        <EditText
-            android:id="@+id/field_Destiny"
-            android:layout_width="280dp"
-            android:layout_height="96dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="6dp"
-            android:autofillHints=""
-            android:background="@color/colorButton"
-            android:cursorVisible="true"
-            android:ems="10"
-            android:hint="@string/email"
-            android:inputType="textEmailAddress"
-            android:isScrollContainer="false"
-            android:shadowColor="@color/colorShadow"
-            android:textAlignment="textStart"
-            android:textColor="@color/colorSecundary"
-            android:textColorHint="@color/colorButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView6"
-            app:layout_constraintTop_toBottomOf="@+id/field_Reason" />
+    <EditText
+        android:id="@+id/field_Destiny"
+        android:layout_width="0dp"
+        android:layout_height="96dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="6dp"
+        android:autofillHints=""
+        android:background="@color/colorButton"
+        android:cursorVisible="true"
+        android:ems="10"
+        android:gravity="start"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
+        android:isScrollContainer="false"
+        android:shadowColor="@color/colorShadow"
+        android:textAlignment="textStart"
+        android:textColor="@color/colorSecundary"
+        android:textColorHint="@color/colorButton"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/field_Reason" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
