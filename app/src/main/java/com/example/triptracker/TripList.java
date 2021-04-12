@@ -15,9 +15,16 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 
 
-
+/** <h1>TripList: Class associated to recycler view</h1>
+ * <p>This class creates elements in view holder to be shown in the recycler view
+ * more information https://firebase.google.com/docs</p>
+ * @author  Murilo Dias
+ * @version 1.0
+ * @since   2021-04-11
+ */
 public class TripList extends FirebaseRecyclerAdapter<ModelTripData,TripList.myviewholder> {
 
+    
     public TripList(@NonNull FirebaseRecyclerOptions<ModelTripData> options) {
         super(options);
     }

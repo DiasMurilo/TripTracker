@@ -56,7 +56,7 @@ import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 /**
- * <h1>Send Report: creates PDF report, save and call intent to share</h1>
+ * <h1>SendReport: creates PDF report, save and call intent to share</h1>
  * <p>The Trips Report is based on a range of dates between two
  * the calendar is presented to user to collect the dates
  * values are passed to method that checks the Realtime Database (Firebase)
@@ -102,7 +102,7 @@ public class SendReport extends MainActivity {
     private DatabaseReference dbRef;
     /**Firebase Bucket Storage reference*/
     private StorageReference storageRef;
-    /**Datapicker visual element*/
+    /**Datepicker visual element*/
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     /** String*/
     private String uid, reportFrom, reportTo;
