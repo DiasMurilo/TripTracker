@@ -22,7 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
  */
 
 public class SelectTrip extends AppCompatActivity{
-    /**Creates a variable to shared preferences*/
+    /**Initiate shared preferences Editor*/
     public static final String MY_PREFS_NAME = "MyPrefsFile";
     /**Declare shared pref var itself*/
     SharedPreferences pref;
@@ -85,6 +85,8 @@ public class SelectTrip extends AppCompatActivity{
 
     /**Method to get UID reference*/
     private String getUID() {
+        /**Initiate Shared preferences*/
+        pref = SelectTrip.this.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         /**Get user reference from user preferences */
         final String uid = pref.getString("uid", "");
         return uid;

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 /** <h1>Home: Class that directs user to multiple actions</h1>
  * <p>This activity is the link between different actions that user can do:
@@ -19,7 +18,7 @@ import android.widget.Toast;
  * @since   2021-04-11
  */
 
-public class Home extends MainActivity {
+public class Home extends Login {
 
     /**View elements Buttons*/
     Button mButtonTrack, mButtonExpense, mButtonSettings, mButtonReport, mButtonLogout;
@@ -84,7 +83,7 @@ public class Home extends MainActivity {
             public void onClick(View view) {
                 /** close connection and any life circle need*/
                 signOut();
-                Intent homeLogout = new Intent(Home.this, MainActivity.class);
+                Intent homeLogout = new Intent(Home.this, Login.class);
                 /**Call intent to send user back to login screen*/
                 startActivity(homeLogout);
             }

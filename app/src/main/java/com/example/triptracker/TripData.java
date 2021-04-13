@@ -53,7 +53,6 @@ public class TripData {
      * @param distance Path to the data in the database
      */
     public TripData(String name, String date, String company, String carRef, String kml, String fuel, String reason, String destination, String distance) {
-        //this.email = email;
         this.name = name;
         this.date = date;
         this.company = company;

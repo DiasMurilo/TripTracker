@@ -16,7 +16,7 @@ import android.widget.Toast;
  * @since   2021-04-11
  */
 
-public class StartTrip extends MainActivity{
+public class StartTrip extends Login {
     /**View element Button*/
     Button mCancelBefore, mSettingsBefore, mStartBefore;
     /**View element TextView*/

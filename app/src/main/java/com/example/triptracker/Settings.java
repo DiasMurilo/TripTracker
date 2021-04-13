@@ -13,8 +13,8 @@ import android.widget.Toast;
  * @version 1.0
  * @since   2021-04-11
  */
-public class Settings extends MainActivity {
-    /**Creates a variable to shared preferences*/
+public class Settings extends Login {
+    /**Initiate shared preferences Editor*/
     public static final String MY_PREFS_NAME = "MyPrefsFile";
     /**Declare Editor to edit shared pref data*/
     SharedPreferences.Editor editor;
@@ -78,6 +78,8 @@ public class Settings extends MainActivity {
     /**Method to check if all mandatory fields are filled
      * note: all fields in the screen are mandatory*/
     private boolean checkFields(){
+        /**Initiate Shared preferences*/
+        pref = Settings.this.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         /**Create string and get from String value from textview*/
         String iName = mName.getText().toString();
         String iCompany = mCompany.getText().toString();
@@ -139,6 +141,7 @@ public class Settings extends MainActivity {
     private void updateFields() {
         /**Initiate Shared preferences*/
         pref = Settings.this.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        /**Get fields values to Strings*/
         final String pName = pref.getString("name", "");
         final String pCompany = pref.getString("company", "");
         final String pCarRef = pref.getString("carref", "");

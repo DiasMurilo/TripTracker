@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * @since   2021-04-11
  */
 
-public class TrackingTrip extends MainActivity {
+public class TrackingTrip extends Login {
 
     /**View element Button*/
     Button mCancelTracking, mFinishTrack;

@@ -23,7 +23,7 @@ import androidx.annotation.NonNull;
  * @version 1.0
  * @since   2021-04-11
  */
-public class TripFinish extends MainActivity {
+public class TripFinish extends Login {
     /**View element Button*/
     Button mCancelFinish, mSaveFinish;
     /**View element TextView*/

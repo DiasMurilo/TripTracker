@@ -18,17 +18,29 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+/** <h1>Login: Initial Class to register or login</h1>
+ * <p>This class allow user to register or login <p>
+ * @author  Murilo Dias
+ * @version 1.0
+ * @since   2021-04-11
+ */
+public class Login extends AppCompatActivity {
 
-public class MainActivity extends AppCompatActivity {
-
-    // Class wide variables
-    private static final String TAG = "EmailPassword";
+    /**Creates a variable to use during debugging time*/
+    private static final String TAG = "Login";
+    /**Initiate shared preferences Editor*/
     public static final String MY_PREFS_NAME = "MyPrefsFile";
+    /**Initiate firebase Authentication service*/
     private FirebaseAuth mAuth;
+    /**Declare Editor to edit shared pref data*/
     SharedPreferences.Editor editor;
+    /**Declare shared pref var itself*/
     SharedPreferences pref;
+    /**View element Button*/
     Button mLogin, mRegister;
+    /**View element Edittext*/
     EditText mEmail, mPass;
+    /**View element progressbar*/
     ProgressBar mProgress;
 
 
@@ -38,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-
+        /**link between view elements and code*/
         mLogin = findViewById(R.id.buttonLogin);
         mEmail = findViewById(R.id.editTextEmail);
         mPass = findViewById(R.id.editTextPassword);
@@ -46,23 +58,31 @@ public class MainActivity extends AppCompatActivity {
         mProgress = findViewById(R.id.progressBar);
         mAuth = FirebaseAuth.getInstance();
 
+        /**Start with enabled buttons*/
+        mLogin.setEnabled(true);
+        mRegister.setEnabled(true);
+
+        /**Set element invisible*/
         mProgress.setVisibility(View.GONE);
 
+        /**Calls method to Autofill fields*/
         updateFieldsLogin();
 
+        /**Set On Click Listener to login*/
         mLogin.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                /**Disable buttons*/
+                mLogin.setEnabled(false);
+                mRegister.setEnabled(false);
+                /**Show progressbar*/
                 mProgress.setVisibility(View.VISIBLE);
+                /**Get fields values*/
                 String email = mEmail.getText().toString();
                 String password = mPass.getText().toString();
+                /**Call method to login*/
                 signIn(email, password);
 
-                /*if(checkEmailAndPass() == true){
-                    Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_SHORT).show();
-                    savePreferencesLogin();
-                    intentBackToHome();
-                }*/
             }
         });
 
@@ -70,30 +90,34 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(checkEmailAndPass() == true){
+                    /**Disable buttons*/
+                    mLogin.setEnabled(false);
+                    mRegister.setEnabled(false);
+                    /**Show progressbar*/
                     mProgress.setVisibility(View.VISIBLE);
+                    /**Get fields values*/
                     String email = mEmail.getText().toString();
                     String password = mPass.getText().toString();
+                    /**Call method to create account*/
                     createAccount(email, password);
-
-
-                    //savePreferencesLogin();
-                    //intentBackToSettings();
                 }
             }
         });
     }
 
-
+    /**Method to create intent to call Home Screen*/
     public void intentBackToHome(){
         Intent backToHomeScreen = new Intent(getApplicationContext(), Home.class);
         startActivity(backToHomeScreen);
     }
 
+    /**Method to create intent to call Settings Screen*/
     public void intentBackToSettings(){
         Intent intentToSettingsScreen = new Intent(getApplicationContext(), Settings.class);
         startActivity(intentToSettingsScreen);
     }
 
+    /**Method to check the email format*/
     public static boolean isValidEmail(CharSequence testEmail) {
         if (testEmail == null) {
             return false;
@@ -102,53 +126,69 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**Method to check email and password*/
     private boolean checkEmailAndPass(){
+        /**Get fields values to string*/
         String emailTest = mEmail.getText().toString();
         String passTest = mPass.getText().toString();
 
-
+        /**Check if valid email*/
         if (isValidEmail(emailTest) == false) {
-            Toast.makeText(MainActivity.this, "invalid Email", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Login.this, "invalid Email", Toast.LENGTH_SHORT).show();
+            /**Enable buttons*/
+            mLogin.setEnabled(true);
+            mRegister.setEnabled(true);
             return false;
         }
+        /**Check if password valid*/
         else if( passTest.length() < 6){
-            Toast.makeText(MainActivity.this, "Invalid Password", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Login.this, "Invalid Password", Toast.LENGTH_SHORT).show();
+            /**Enable buttons*/
+            mLogin.setEnabled(true);
+            mRegister.setEnabled(true);
             return false;
         }
+        /**Return positive*/
         else {
             return true;
         }
     }
 
+    /**Method set previous values in the fields if there's*/
     private void updateFieldsLogin() {
-        //check if there are already dates and set it to Fields, otherwise "Edit Text" fields are set empty
-        pref = MainActivity.this.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        /**Initiate Shared preferences*/
+        pref = Login.this.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        /**get the String values from Shared Preferences*/
         final String pEmail = pref.getString("email", "");
         final String pPass = pref.getString("pass", "");
+        /**Set values to Text Fields and textEditor*/
         mEmail.setText(pEmail);
         mPass.setText(pPass);
     }
-
+    /**Method updates the Shared preferences*/
     private void savePreferencesLogin(String userId){
-        //save the values in the Preferences
-        editor = MainActivity.this.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+        /**Initiate shared preferences Editor*/
+        editor = getApplicationContext().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+        /**get the String values from fields*/
         String myEmail = mEmail.getText().toString();
         String myPass = mPass.getText().toString();
+        /**Save Strings values in the Shared Preferences*/
         editor.putString("uid", userId);
         editor.putString("email", myEmail);
         editor.putString("pass", myPass);
         editor.commit();
     }
-
+    /**method to check if mandatory fields already filled*/
     protected boolean checkIfSettingsSaved(){
-        pref = MainActivity.this.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        /**Initiate Shared preferences*/
+        pref = Login.this.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        /**get the String values from Shared Preferences*/
         final String cEmail = pref.getString("email", "");
         final String cName = pref.getString("name", "");
         final String cCompany = pref.getString("company", "");
         final String cCarRef = pref.getString("carref", "");
         final String ckml = pref.getString("kml", "");
         final String cFuel = pref.getString("fuel", "");
-
 
         if (cName.equals("")) {
             return false;
@@ -173,52 +213,65 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // FIREBASE
+    /***/
     private void signIn(String email, String password) {
-    Log.d(TAG, "signIn:" + email);
+
     if (!validateForm()) {
         return;
     }
+    /**Calls Authentication in the Firebase*/
     mAuth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
+            /**Check the result of the action*/
+            .addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
+                    /**Sign in successful, update UI with the signed-in information*/
                     if (task.isSuccessful()) {
-                        // Sign in success, update UI with the signed-in user's information
                         Toast.makeText(getApplicationContext(), "Authentication Successful.", Toast.LENGTH_SHORT).show();
                         Log.d(TAG, "signInWithEmail:success");
+                        /**gets the user reference from Authentication Firebase service*/
                         FirebaseUser user = mAuth.getCurrentUser();
-                        savePreferencesLogin(user.getUid());     // Update user preferences
+                        /**Updates user in shared preferences*/
+                        savePreferencesLogin(user.getUid());
                         if (checkIfSettingsSaved()==true) {
-                            intentBackToHome();         // open home Screen
+                            /**Calls intent to Home screen*/
+                            intentBackToHome();
                         }
                         else {
+                            /**Calls intent to Settings*/
                             intentBackToSettings();
                         }
                     }
                     else {
-                        // If sign in fails, display a message to the user.
+                        /**If sign in fails, display a message to the user*/
                         Log.w(TAG, "signInWithEmail:failure", task.getException());
                         Toast.makeText(getApplicationContext(), "Authentication failed.",
                                 Toast.LENGTH_SHORT).show();
                     }
+                    /**set progressbar as invisible*/
                     mProgress.setVisibility(View.GONE);
+                    /**Enable buttons*/
+                    mLogin.setEnabled(true);
+                    mRegister.setEnabled(true);
                 }
             });
     }
 
+    /**Check the format of email and and pass*/
     private boolean validateForm() {
         boolean valid = true;
-
+        /**get email from field*/
         String email = mEmail.getText().toString();
+        /**Check the email*/
         if (TextUtils.isEmpty(email)) {
             mEmail.setError("Required.");
             valid = false;
         } else {
             mEmail.setError(null);
         }
-
+        /**get password from field*/
         String password = mPass.getText().toString();
+        /**Check the password*/
         if (TextUtils.isEmpty(password)) {
             mPass.setError("Required.");
             valid = false;
@@ -228,37 +281,44 @@ public class MainActivity extends AppCompatActivity {
         return valid;
     }
 
+    /**Method to logout*/
     void signOut() {
         mAuth.signOut();
         Toast.makeText(getApplicationContext(), "Logout Done", Toast.LENGTH_SHORT).show();
     }
-
+    /**Method to create account*/
     private void createAccount(String email, String password) {
         Log.d(TAG, "createAccount:" + email);
+        /**Check if valid email and password*/
         if (!validateForm()) {
             return;
         }
+        /**Check the result of the action*/
         mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        /**created successful, update UI with the signed-in information*/
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            /**gets the user reference from Authentication Firebase service*/
                             savePreferencesLogin(user.getUid());     // Update user preferences
                             intentBackToSettings();         // open home Screen
                         }
                         else {
-                            // If sign in fails, display a message to the user.
+                            /**If sign in fails, display a message to the user*/
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
                             Toast.makeText(getApplicationContext(), "Authentication failed.", Toast.LENGTH_SHORT).show();
                         }
+                        /**Enable buttons*/
+                        mLogin.setEnabled(true);
+                        mRegister.setEnabled(true);
+                        /**Hide progressbar*/
                         mProgress.setVisibility(View.GONE);
                     }
                 });
     }
-
 }
 
 

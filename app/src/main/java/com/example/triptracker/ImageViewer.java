@@ -34,23 +34,33 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 
+/** <h1>ImageViewer: Class to get receipt picture, display and sava at database</h1>
+ * <p>This class allow user to call camera from intent, set picture to user check, add expense description and value to save at database <p>
+ * @author  Murilo Dias
+ * @version 1.0
+ * @since   2021-04-11
+ */
+public class ImageViewer extends Login {
 
-public class ImageViewer extends MainActivity {
-
-
+    /**Initiate variable to be used by camera intent*/
     private static final int REQUEST_TAKE_PHOTO = 2;
+    /**Camera image path Uri*/
     private Uri cameraImageURI;
 
-    //initialising widgets (views) for use in this class
-    private String iTripRef, iDate, iReason, iDestination, iURL, value, imageRef, description;   // iURL is the address to send image link
+    /**Create String*/
+    private String iTripRef, iDate, iReason, iDestination, iURL, value, imageRef, description;
+    /**View element textView*/
     private TextView mtripRef, mDate, mReason, mDestination;
+    /**View element editText*/
     private EditText mValue, mDescription;
+    /**View element ImageViewer*/
     private ImageView mImageViewer;
+    /**View element Button*/
     private Button mButtonCancelImageViewer, mCamera, mSave;
 
-    // [START storage_field_initialization]
+    /**Get firebase bucket storage reference*/
     FirebaseStorage storage = FirebaseStorage.getInstance();
-    // Create a storage reference from our app
+    /**Get firebase Realtime Database reference*/
     StorageReference storageRef = storage.getReference();
 
 
@@ -60,7 +70,7 @@ public class ImageViewer extends MainActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.image_viewer);
 
-
+        /**link between view elements and code*/
         mButtonCancelImageViewer = findViewById(R.id.cancelImageViewer);
         mCamera = findViewById(R.id.cameraImageViewer);
         mtripRef = findViewById(R.id.camera_tripRef);

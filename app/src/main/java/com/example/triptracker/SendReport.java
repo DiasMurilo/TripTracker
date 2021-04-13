@@ -66,7 +66,7 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
  * @version 1.0
  * @since   2021-04-11
  */
-public class SendReport extends MainActivity {
+public class SendReport extends Login {
 
 
     /**String used to display info in debug mode*/
@@ -214,7 +214,7 @@ public class SendReport extends MainActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(), "Action Canceled", Toast.LENGTH_SHORT).show();
-                /**method implemented in "MainActivity"*/
+                /**method implemented in "Login"*/
                 intentBackToHome();
             }
         });

@@ -25,7 +25,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyC6w9r1gw5NOG-znhy6sMoMMWJNpbSxApA"/>
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -39,11 +39,6 @@
         <activity android:name=".ImageViewer">
             <intent-filter>
                 <action android:name="android.intent.action.imageviewer" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".ReportViewer">
-            <intent-filter>
-                <action android:name="android.intent.action.reportviewer" />
             </intent-filter>
         </activity>
         <activity android:name=".SendReport">
