@@ -41,8 +41,7 @@ public class StartTrip extends MainActivity{
         mFieldReason = findViewById(R.id.field_Reason);
         mFieldDestiny = findViewById(R.id.field_Destiny);
 
-        /** Updates fields with previous trip information
-         */
+        /** Updates fields with previous trip information*/
         updateFieldsStartTrip();
 
         /**On CLick send user to Settings*/
