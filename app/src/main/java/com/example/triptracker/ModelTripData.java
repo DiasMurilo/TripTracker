@@ -2,6 +2,11 @@ package com.example.triptracker;
 
 /** <h1>ModelTripData: Class that structure data to recycler view</h1>
  * <p>This class structures data to put in a view holder to build the recycler view <p>
+ * Citation:
+ * Class contains code adapted from
+ * URL: https://firebase.google.com/docs/database
+ * Permission:  Creative Commons Attribution 4.0 License under the Apache 2.0 License
+ * Retrieved on: 28 Feb 2021
  * @author  Murilo Dias
  * @version 1.0
  * @since   2021-04-11

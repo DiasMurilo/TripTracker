@@ -62,6 +62,12 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
  * values are passed to method that checks the Realtime Database (Firebase)
  * After the PDF document is done and saved in the phone, the intent is called allowing user to send by email, google driver, message or bluetooth.
  * <p>
+ * Citation:
+ * Class contains code adapted from
+ * URL: https://developer.android.com/reference/android/graphics/pdf/PdfDocument
+ * Permission:  Creative Commons Attribution 2.5 & Apache 2.0 license
+ * Retrieved on: 23 Mar 2021
+ *
  * @author  Murilo Dias
  * @version 1.0
  * @since   2021-04-11

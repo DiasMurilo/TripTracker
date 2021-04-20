@@ -16,6 +16,11 @@ import com.google.firebase.database.FirebaseDatabase;
 
 /** <h1>SelectTrip: Class that displays recycler view list to the user</h1>
  * <p>This class displays the recycler view to the user after the elements being created<p>
+ * Citation:
+ * Class contains code adapted from
+ * URL: https://www.geeksforgeeks.org/how-to-populate-recyclerview-with-firebase-data-using-firebaseui-in-android-studio/
+ * Permission:  Creative Commons Attribution 4.0
+ * Retrieved on: 24 Feb 2021
  * @author  Murilo Dias
  * @version 1.0
  * @since   2021-04-11

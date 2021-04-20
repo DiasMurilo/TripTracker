@@ -14,7 +14,11 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 
 /** <h1>TripList: Class associated to recycler view</h1>
  * <p>This class creates elements in view holder to be shown in the recycler view
- * more information https://firebase.google.com/docs</p>
+ * Citation:
+ * Class contains code adapted from
+ * URL: https://www.geeksforgeeks.org/how-to-populate-recyclerview-with-firebase-data-using-firebaseui-in-android-studio/
+ * Permission:  Creative Commons Attribution 4.0
+ * Retrieved on: 24 Feb 2021
  * @author  Murilo Dias
  * @version 1.0
  * @since   2021-04-11

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#29792D</color>
-    <color name="colorSecundary">#000000</color>
+    <color name="colorSecondary">#000000</color>
     <color name="colorAccent">#FF0000</color>
     <color name="colorBackground">#BCFAFE</color>
-    <color name="colorButton">#FFFFFF</color>
+    <color name="ColorTertiary">#FFFFFF</color>
     <color name="colorShadow">#656565</color>
     <color name="colorClearShadow">#AAAAAA</color>
     <color name="black">#000000</color>

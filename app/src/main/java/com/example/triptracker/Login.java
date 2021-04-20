@@ -20,9 +20,16 @@ import com.google.firebase.auth.FirebaseUser;
 
 /** <h1>Login: Initial Class to register or login</h1>
  * <p>This class allow user to register or login <p>
+ * Citation:
+ * Class contains code adapted from
+ * URL: https://firebase.google.com/docs/auth
+ * Permission:  Creative Commons Attribution 4.0 License under the Apache 2.0 License
+ * Retrieved on: 15 Feb 2021
  * @author  Murilo Dias
  * @version 1.0
  * @since   2021-04-11
+ *
+ *
  */
 public class Login extends AppCompatActivity {
 

@@ -7,10 +7,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /** <h1>TrackingTrip: Class to display Google Maps while tracking the trip</h1>
  * <p>This class displays the map while tracking the trip, here user can watch in realtime the route being created<p>
+ * Citation:
+ * Class contains code adapted from
+ * URL: https://developers.google.com/maps/documentation/android-sdk/overview
+ * Permission:  Creative Commons Attribution 2.5 & Apache 2.0 license
+ * Retrieved on: 15 Apr 2021
  * @author  Murilo Dias
  * @version 1.0
  * @since   2021-04-11
@@ -63,10 +69,12 @@ public class TrackingTrip extends Login {
                 float distance = calculateDistance(mMapFragment.getLocations());
                 /**change meters to kilometers*/
                 distance = distance/1000;
+                /**Initiate decimal format*/
+                DecimalFormat df = new DecimalFormat("0.00");
                 /**Create intent to TripFinish screen*/
                 Intent trackingTripToTripFinish = new Intent(getApplicationContext(), TripFinish.class);
-                /**Get distance to pass vvalue in the intent*/
-                trackingTripToTripFinish.putExtra("distance", distance);
+                /**Get distance to pass value in the intent as decimal format*/
+                trackingTripToTripFinish.putExtra("distance", df.format(distance));
                 /**Call intent*/
                 startActivity(trackingTripToTripFinish);
                 // Call 6_TRIP_FINISH

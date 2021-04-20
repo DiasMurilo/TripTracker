@@ -19,6 +19,11 @@ import androidx.annotation.NonNull;
 
 /** <h1>FinishTrip: Class to let user check data before upload to the Realtime Database Firebase</h1>
  * <p>This class displays trip information to user and ask to save or cancel the upload of the trip<p>
+ * Citation:
+ * Class contains code adapted from
+ * URL: https://firebase.google.com/docs/database
+ * Permission:  Creative Commons Attribution 4.0 License under the Apache 2.0 License
+ * Retrieved on: 28 Feb 2021
  * @author  Murilo Dias
  * @version 1.0
  * @since   2021-04-11
