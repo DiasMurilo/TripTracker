@@ -42,11 +42,14 @@ import androidx.core.content.FileProvider;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Currency;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -80,8 +83,6 @@ public class SendReport extends Login {
 
     /** constant used for runtime permissions*/
     private static final int PERMISSION_REQUEST_CODE = 200;
-
-
     /** "1120" is the height of A4 page*/
     private static final int PAGE_HEIGHT = 1120;
     /** "792" is the width of A4 page*/
@@ -116,6 +117,8 @@ public class SendReport extends Login {
     private int totalDownloadedAttempts;
     /**boolean variable*/
     private boolean isButtonClicked, whatDate;
+    /**Initiate decimal format*/
+    DecimalFormat df = new DecimalFormat("0.00");
 
 
 
@@ -420,8 +423,8 @@ public class SendReport extends Login {
 
             /**Prints title of the page*/
             int currentLineY = intialCurrentLineY;
-            currentLineY = writeTextNextLine(canvas, PAGE_WIDTH/2, currentLineY, "TRIP REPORT - DETAILS", getTitleFontBold(), LINE_HEIGHT_TITLE);
-            currentLineY = writeTextNextLine(canvas, PAGE_WIDTH/2, currentLineY, "From: " + startDate + " To: " + endDate, getTitleFontItalic(), LINE_HEIGHT_TITLE);
+            currentLineY = writeTextNextLine(canvas, PAGE_WIDTH/2, currentLineY, "TRIPTRACKER APP REPORT - TRIP DETAILS", getTitleFontBold(), LINE_HEIGHT_TITLE);
+            currentLineY = writeTextNextLine(canvas, PAGE_WIDTH/2, currentLineY, "Dates from " + startDate + " to " + endDate, getTitleFontItalic(), LINE_HEIGHT_TITLE);
             currentLineY = writeLine(canvas, currentLineY);
 
             /**Loop to print trips in packages*/
@@ -458,7 +461,7 @@ public class SendReport extends Login {
 
             /**Prints title of the page*/
             int currentLineY = intialCurrentLineY;
-            currentLineY = writeTextNextLine(canvas, PAGE_WIDTH/2, currentLineY, "TRIP REPORT - EXPENSES", getTitleFontBold(), LINE_HEIGHT_TITLE);
+            currentLineY = writeTextNextLine(canvas, PAGE_WIDTH/2, currentLineY, "TRIPTRACKER APP REPORT - TRIP EXPENSES", getTitleFontBold(), LINE_HEIGHT_TITLE);
             currentLineY = writeTextNextLine(canvas, PAGE_WIDTH/2, currentLineY, "From: " + startDate + " To: " + endDate, getTitleFontItalic(), LINE_HEIGHT_TITLE);
             currentLineY = writeLine(canvas, currentLineY);
             /**Loop to print images in packages*/
@@ -476,7 +479,7 @@ public class SendReport extends Login {
                 writeExpenseData(tripData, expenseData, canvas, currentLineY);
                 currentLineY += EXPENSIVE_HEIGHT + 25;
             }
-            /** Finish a page*/
+            /** Print Footer page*/
             writeFooter(canvas, pageExpense + totalTripPages + 1 , totalPages);
 
             /** Finish a page*/
@@ -534,7 +537,7 @@ public class SendReport extends Login {
         String dateTimeNow = sdf.format(calendar.getTime());
 
         /**Set current line to the needed position down to top*/
-        int currentLineY = PAGE_HEIGHT  - 40;
+        int currentLineY = PAGE_HEIGHT - 40;
         currentLineY = writeLine(canvas, currentLineY);
         currentLineY += 10;
         /**Draw line to separate footer from content*/
@@ -599,20 +602,20 @@ public class SendReport extends Login {
         /**Set the line to be printed line by line*/
         currentLineY = writeTextNextLine(canvas, startX, currentLineY, "Date: " + tripData.date , getFont(), LINE_HEIGHT_TEXT);
         currentLineY = writeTextNextLine(canvas, startX, currentLineY, "Destination: " + tripData.destination , getFont(), LINE_HEIGHT_TEXT);
-        currentLineY = writeTextNextLine(canvas, startX, currentLineY, "Driver: " + tripData.name , getFont(), LINE_HEIGHT_TEXT);
+        currentLineY = writeTextNextLine(canvas, startX, currentLineY, "User: " + tripData.name , getFont(), LINE_HEIGHT_TEXT);
         /**Set the line to be printed line by line*/
         writeTextNextLine(canvas, startX, currentLineY, "Company: " + tripData.company , getFont(), LINE_HEIGHT_TEXT);
         currentLineY = writeTextNextLine(canvas, middleX, currentLineY, "Car reference: " + tripData.carRef , getFont(), LINE_HEIGHT_TEXT);
         /**Set the line to be printed line by line*/
-        writeTextNextLine(canvas, startX, currentLineY, "Distance: " + tripData.distance , getFont(), LINE_HEIGHT_TEXT);
-        currentLineY = writeTextNextLine(canvas, middleX, currentLineY, "KM/L: " + tripData.kml , getFont(), LINE_HEIGHT_TEXT);
+        writeTextNextLine(canvas, startX, currentLineY, "Distance: " + tripData.distance + " km", getFont(), LINE_HEIGHT_TEXT);
+        currentLineY = writeTextNextLine(canvas, middleX, currentLineY, "Autonomy: " + tripData.kml + " km", getFont(), LINE_HEIGHT_TEXT);
         /**Set the line to be printed line by line*/
         writeTextNextLine(canvas, startX, currentLineY, "Fuel: " + tripData.fuel , getFont(), LINE_HEIGHT_TEXT);
-        currentLineY = writeTextNextLine(canvas, middleX, currentLineY, "Consumed fuel: " + tripData.getConsumedFuel() , getFont(), LINE_HEIGHT_TEXT);
+        currentLineY = writeTextNextLine(canvas, middleX, currentLineY, "Consumed fuel: " + tripData.getConsumedFuel() + " Liter(s)", getFont(), LINE_HEIGHT_TEXT);
 
         /**Set the line to be printed line by line*/
         writeTextNextLine(canvas, startX, currentLineY, "Expenses count: " + tripData.getExpensesCount() , getFont(), LINE_HEIGHT_TEXT);
-        currentLineY = writeTextNextLine(canvas, middleX, currentLineY, "Expenses total: " + tripData.getExpensesSum() , getFont(), LINE_HEIGHT_TEXT);
+        currentLineY = writeTextNextLine(canvas, middleX, currentLineY, "Expenses total: " + df.format(tripData.getExpensesSum()) , getFont(), LINE_HEIGHT_TEXT);
         currentLineY = writeTextNextLine(canvas, startX, currentLineY, tripData.getExpenseInfo(), getFontItalic(), LINE_HEIGHT_TEXT);
 
         /**return pointer*/

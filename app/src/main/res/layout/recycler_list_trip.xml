@@ -26,7 +26,7 @@
         android:id="@+id/imageView6"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:layout_below="@+id/select_destination"
+        android:layout_below="@+id/textView28"
         android:layout_marginTop="3dp"
         android:background="@color/colorSecondary"
         android:backgroundTint="@color/colorSecondary"

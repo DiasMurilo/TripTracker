@@ -4,7 +4,7 @@ import com.google.firebase.database.Exclude;
 import java.util.HashMap;
 import java.util.Map;
 
- /** <h1>Expense: Class to struct the image data for Firebase</h1>
+ /** <h1>Expense: Class to struct the image data for Firebase </h1>
  * <p>This activity is used to structure the data before send to database
       * more info https://firebase.google.com/docs
  * <p>

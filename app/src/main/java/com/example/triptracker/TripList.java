@@ -12,7 +12,7 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 
 
-/** <h1>TripList: Class associated to recycler view</h1>
+/** <h1>TripList: Class associated to recycler view </h1>
  * <p>This class creates elements in view holder to be shown in the recycler view
  * Citation:
  * Class contains code adapted from

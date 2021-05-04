@@ -9,8 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /** <h1>StartTrip: Class to let user check data before track trip</h1>
- * <p>This class displays mandatory information to user and ask for trip references, also allows user to change data before start
- * <p>
+ * <p>This class displays mandatory information to user and ask for trip references, also allows user to change data before start<p>
  * @author  Murilo Dias
  * @version 1.0
  * @since   2021-04-11
@@ -48,6 +47,9 @@ public class StartTrip extends Login {
         mSettingsBefore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
+                /**save Reason and Destination to auto-fill fields next time*/
+                saveReasonDestination();
+
                 /**call intent to send user to settings*/
                 intentBackToSettings();
             }
@@ -57,8 +59,12 @@ public class StartTrip extends Login {
         mCancelBefore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
+                /**save Reason and Destination to auto-fill fields next time*/
+                saveReasonDestination();
+
                 /**call intent to send user to Home and cancel trip*/
                 intentBackToHome();
+
             }
         });
 
@@ -73,7 +79,7 @@ public class StartTrip extends Login {
                 Intent startTripToTrip = new Intent(StartTrip.this, TrackingTrip.class);
                 /**Call intent*/
                 startActivity(startTripToTrip);
-                /**save Reason and Destination to outofill fields next time*/
+                /**save Reason and Destination to auto-fill fields next time*/
                 saveReasonDestination();
             }
         });

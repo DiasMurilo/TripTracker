@@ -145,6 +145,8 @@ public class Login extends AppCompatActivity {
             /**Enable buttons*/
             mLogin.setEnabled(true);
             mRegister.setEnabled(true);
+            /**Set element invisible*/
+            mProgress.setVisibility(View.GONE);
             return false;
         }
         /**Check if password valid*/
@@ -153,6 +155,8 @@ public class Login extends AppCompatActivity {
             /**Enable buttons*/
             mLogin.setEnabled(true);
             mRegister.setEnabled(true);
+            /**Set element invisible*/
+            mProgress.setVisibility(View.GONE);
             return false;
         }
         /**Return positive*/
@@ -254,6 +258,8 @@ public class Login extends AppCompatActivity {
                         Log.w(TAG, "signInWithEmail:failure", task.getException());
                         Toast.makeText(getApplicationContext(), "Authentication failed.",
                                 Toast.LENGTH_SHORT).show();
+                        /**Set element invisible*/
+                        mProgress.setVisibility(View.GONE);
                     }
                     /**set progressbar as invisible*/
                     mProgress.setVisibility(View.GONE);
@@ -272,19 +278,30 @@ public class Login extends AppCompatActivity {
         /**Check the email*/
         if (TextUtils.isEmpty(email)) {
             mEmail.setError("Required.");
+            /**Hide progressbar*/
+            mProgress.setVisibility(View.GONE);
             valid = false;
         } else {
+            /**Hide progressbar*/
+            mProgress.setVisibility(View.GONE);
             mEmail.setError(null);
         }
         /**get password from field*/
         String password = mPass.getText().toString();
         /**Check the password*/
         if (TextUtils.isEmpty(password)) {
+            /**Hide progressbar*/
+            mProgress.setVisibility(View.GONE);
             mPass.setError("Required.");
             valid = false;
         } else {
+            /**Hide progressbar*/
+            mProgress.setVisibility(View.GONE);
             mPass.setError(null);
         }
+        /**Hide progressbar*/
+        mProgress.setVisibility(View.GONE);
+        /**Return Valid*/
         return valid;
     }
 

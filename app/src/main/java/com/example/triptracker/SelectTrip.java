@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.FirebaseDatabase;
 
-/** <h1>SelectTrip: Class that displays recycler view list to the user</h1>
+/** <h1>SelectTrip: Class that displays recycler view list to the user </h1>
  * <p>This class displays the recycler view to the user after the elements being created<p>
  * Citation:
  * Class contains code adapted from

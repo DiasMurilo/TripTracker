@@ -8,7 +8,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 /** <h1>Settings: Class automatic called at first time that user login and any time that wish to change mandatory information</h1>
- * <p>This class displays and allow user to change mandatory data, this data is saved at shared preferences to be accessed by other classes<p>
+ * <p>This class displays and allow user to change mandatory data, this data is saved at shared preferences to be accessed by other classes <p>
  * @author  Murilo Dias
  * @version 1.0
  * @since   2021-04-11

@@ -30,7 +30,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import java.util.ArrayList;
 
 /** <h1>Mapfragment: Class that creates map view fragment and updates during the trip</h1>
- * <p>This class creates a fragment view with google maps, tracks the position and hold values in a string to calculate distance<p>
+ * <p>This class creates a fragment view with google maps, tracks the position and hold values in a string to calculate distance.<p>
  * Citation:
  * Class contains code adapted from
  * URL: https://firebase.google.com/docs/database

@@ -64,7 +64,7 @@ public class TripData {
         this.distance = distance;
     }
 
-    /** method to exclude data from database, not being used at the moment (for future use)*/
+    /** method to exclude data from database, not being used at the moment  (for future use)*/
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
@@ -101,10 +101,11 @@ public class TripData {
         return  0;
     }
 
-    /**Method to get  total value of expenses per trip*/
-    public int getExpensesSum()
+    /**Method to get  total value of expenses per trip
+     * @return*/
+    public float getExpensesSum()
     {
-        int total = 0;
+        float total = 0;
         if (expenses != null)
         {
             for (Expense expense : expenses.values())

@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-/** <h1>Home: Class that directs user to multiple actions</h1>
+/** <h1>Home: Class that directs user to multiple actions </h1>
  * <p>This activity is the link between different actions that user can do:
  * - TRACK A TRIP
  * - ADD TRIP EXPENSE

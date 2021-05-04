@@ -1,6 +1,6 @@
 package com.example.triptracker;
 
-/** <h1>ModelTripData: Class that structure data to recycler view</h1>
+/** <h1>ModelTripData: Class that structure data to recycler view </h1>
  * <p>This class structures data to put in a view holder to build the recycler view <p>
  * Citation:
  * Class contains code adapted from

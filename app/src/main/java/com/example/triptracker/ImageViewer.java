@@ -176,7 +176,7 @@ public class ImageViewer extends Login {
                                     }
                                 });
                         /** Starts to updated in database receipt reference*/
-                        /** Creates the path to adds image reference in the database*/
+                        /** Creates the path to adds image reference in the database */
                         imageRef = receiptName;
                         String fullURL = iURL;
                         String excludePath = "https://triptracker-821dc-default-rtdb.europe-west1.firebasedatabase.app/";

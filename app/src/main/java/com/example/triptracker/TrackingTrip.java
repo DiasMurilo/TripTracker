@@ -11,7 +11,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /** <h1>TrackingTrip: Class to display Google Maps while tracking the trip</h1>
- * <p>This class displays the map while tracking the trip, here user can watch in realtime the route being created<p>
+ * <p>This class displays the map while tracking the trip, here user can watch in realtime the route being created <p>
  * Citation:
  * Class contains code adapted from
  * URL: https://developers.google.com/maps/documentation/android-sdk/overview
