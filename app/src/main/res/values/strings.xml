@@ -4,7 +4,7 @@
     <string name="password">PASSWORD</string>
     <string name="login">LOGIN</string>
     <string name="register">REGISTER</string>
-    <string name="name">Name</string>
+    <string name="name">Driver</string>
     <string name="company">Company</string>
     <string name="car_ref">Car Ref.</string>
     <string name="kml">km/l</string>

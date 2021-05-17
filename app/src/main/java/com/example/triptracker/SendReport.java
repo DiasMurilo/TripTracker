@@ -2,14 +2,21 @@ package com.example.triptracker;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.fonts.Font;
+import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
@@ -18,12 +25,8 @@ import android.widget.DatePicker;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.content.pm.PackageManager;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Typeface;
-import android.graphics.pdf.PdfDocument;
-import android.os.Environment;
+
+import com.bumptech.glide.load.resource.bitmap.BitmapResource;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -31,29 +34,32 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.installations.Utils;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Currency;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
@@ -80,7 +86,6 @@ public class SendReport extends Login {
 
     /**String used to display info in debug mode*/
     private static final String TAG = "SendReport";
-
     /** constant used for runtime permissions*/
     private static final int PERMISSION_REQUEST_CODE = 200;
     /** "1120" is the height of A4 page*/
@@ -98,7 +103,7 @@ public class SendReport extends Login {
     /** "25" is the value that title font line space requires*/
     private int LINE_HEIGHT_TITLE = 25;
     /** "18" is the value that body font line space requires*/
-    private int LINE_HEIGHT_TEXT = 18;
+    private int LINE_HEIGHT_TEXT = 17;
     /**View elements Buttons*/
     private Button mCancelSelectDate, mReportSelectDate, mRepFrom, mRepTo;
     /**View elements TextView*/
@@ -119,6 +124,11 @@ public class SendReport extends Login {
     private boolean isButtonClicked, whatDate;
     /**Initiate decimal format*/
     DecimalFormat df = new DecimalFormat("0.00");
+    /**Initiate shared preferences Editor*/
+    public static final String MY_PREFS_NAME = "MyPrefsFile";
+
+// Test Image
+    Bitmap bmp, scaledmp;
 
 
 
@@ -136,6 +146,10 @@ public class SendReport extends Login {
         mRepTo = findViewById(R.id.reportTo);
         mTextFrom = findViewById(R.id.textFrom);
         mTextTo = findViewById(R.id.textTo);
+
+// Test of inserting image
+        bmp = BitmapFactory.decodeResource(getResources(), R.drawable.icon);
+        scaledmp = Bitmap.createScaledBitmap(bmp, 120, 120, false);
 
 
         /**hide progress bar to start*/
@@ -381,13 +395,13 @@ public class SendReport extends Login {
     private void generatePDF(String startDate, String endDate, HashMap<String, TripData> tripDataMap, List<Pair<Pair<String, String>, Bitmap>> expenseImagesList)
     {
         /** Space value at the top of the pages*/
-        int intialCurrentLineY = 10;
+        int intialCurrentLineY = 35;
 
         /**Determine how many pages will be need for trips information*/
         int pageTripRemainder = tripDataMap.size() % NUMBER_TRIPS_PER_PAGE;
         int totalTripPages = (tripDataMap.size() / NUMBER_TRIPS_PER_PAGE) + (pageTripRemainder > 0 ? 1 : 0);
 
-        /**Determina how many pages need for receipt images*/
+        /**Determine how many pages need for receipt images*/
         int pageExpensesRemainder = expenseImagesList.size() % NUMBER_EXPENSES_PER_PAGE;
         int totalExpensesPages = (expenseImagesList.size() / NUMBER_EXPENSES_PER_PAGE) + (pageExpensesRemainder > 0 ? 1 : 0);
 
@@ -399,16 +413,101 @@ public class SendReport extends Login {
 
         /**get the current time to print in the page as reference*/
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy_hh:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_hh:mm:ss");
         String dateTimeNow = sdf.format(calendar.getTime());
 
-        /** Create an object variable for the PDF*/
+        /**Create an object variable for the PDF*/
         PdfDocument pdfDocument = new PdfDocument();
-        /**
-         * Add page info to the PDF file in which we will give the pageWidth, pageHeight and number of pages to create the PDF*/
+        /**Add page info to the PDF file in which we will give the pageWidth, pageHeight and number of pages to create the PDF*/
         PdfDocument.PageInfo myPageInfo = new PdfDocument.PageInfo.Builder(PAGE_WIDTH, PAGE_HEIGHT, totalPages).create();
 
-        /**Loop to print trips resume*/
+
+// Here is the face page of the app
+        Paint myPaint = new Paint();
+
+        /**Set start page*/
+        PdfDocument.Page myPage = pdfDocument.startPage(myPageInfo);
+
+        /** create variable for canvas*/
+        Canvas canvas = myPage.getCanvas();
+        int LINE_HEIGHT_TITLE_LARGE = 40;
+        int LEFT_MARGIN = 90;
+
+        /**Prints title of the page*/
+        int currentLineY = intialCurrentLineY + 20;
+        canvas.drawBitmap(scaledmp, 40, 40, myPaint);
+        currentLineY = writeTextNextLine(canvas, PAGE_WIDTH/2, currentLineY, "TRIP TRACKER APP", getTitleLargeBold(), LINE_HEIGHT_TITLE_LARGE);
+        currentLineY = writeTextNextLine(canvas, PAGE_WIDTH/2, currentLineY, "REPORT", getTitleLargeBold(), LINE_HEIGHT_TITLE_LARGE);
+        currentLineY = currentLineY + 40;
+        currentLineY = writeLine(canvas, currentLineY);
+        currentLineY = currentLineY + 30;
+        currentLineY = writeTextNextLine(canvas, PAGE_WIDTH/2, currentLineY, "From " + startDate, getTitleLargeBaseFont(), LINE_HEIGHT_TITLE_LARGE);
+        currentLineY = writeTextNextLine(canvas, PAGE_WIDTH/2, currentLineY, "To   " + endDate, getTitleLargeBaseFont(), LINE_HEIGHT_TITLE_LARGE);
+        currentLineY = currentLineY + 30;
+        currentLineY = writeLine(canvas, currentLineY);
+        currentLineY = currentLineY + 100;
+
+
+        /**Convert date to get quantity of days and print line*/
+        Date firstDate = changeDateFormat(endDate);
+        Date secondDate = changeDateFormat(startDate);
+        long totalDays = firstDate.getTime() - secondDate.getTime();
+        writeTextNextLine(canvas, LEFT_MARGIN, currentLineY, "Quantity of Days:", getTitleLargeFontBold(), LINE_HEIGHT_TITLE_LARGE);
+        currentLineY = writeTextNextLine(canvas, PAGE_WIDTH/2, currentLineY, String.valueOf(TimeUnit.DAYS.convert(totalDays, TimeUnit.MILLISECONDS)), getTitleLargeBaseFontLeft(), LINE_HEIGHT_TITLE_LARGE);
+        /**print No. of trips*/
+        writeTextNextLine(canvas, LEFT_MARGIN, currentLineY, "Quantity of Trips:", getTitleLargeFontBold(), LINE_HEIGHT_TITLE_LARGE);
+        currentLineY = writeTextNextLine(canvas, PAGE_WIDTH/2, currentLineY, String.valueOf(tripDataMap.size()), getTitleLargeBaseFontLeft(), LINE_HEIGHT_TITLE_LARGE);
+        /**print Distance*/
+        double totalDistance = 0;
+        for (TripData tripData : tripDataMap.values()) {
+            totalDistance += Double.parseDouble(tripData.distance);
+        }
+        writeTextNextLine(canvas, LEFT_MARGIN, currentLineY, "Total Distance:", getTitleLargeFontBold(), LINE_HEIGHT_TITLE_LARGE);
+        currentLineY = writeTextNextLine(canvas, PAGE_WIDTH/2, currentLineY, String.valueOf(totalDistance) + " km", getTitleLargeBaseFontLeft(), LINE_HEIGHT_TITLE_LARGE);
+
+        /**print consumption*/
+        double totalConsumption = 0;
+        double distancePerTrip = 0;
+        double consumptionPerTrip = 0;
+        for (TripData tripData : tripDataMap.values()) {
+            distancePerTrip = Double.parseDouble(tripData.distance);
+            consumptionPerTrip = Double.parseDouble(tripData.kml);
+            totalConsumption += (distancePerTrip/consumptionPerTrip);
+        }
+        writeTextNextLine(canvas, LEFT_MARGIN, currentLineY, "Fuel Consumption:", getTitleLargeFontBold(), LINE_HEIGHT_TITLE_LARGE);
+        currentLineY = writeTextNextLine(canvas, PAGE_WIDTH/2, currentLineY, String.valueOf(df2.format(totalConsumption)) + " Liters", getTitleLargeBaseFontLeft(), LINE_HEIGHT_TITLE_LARGE);
+
+        /**print number Expenses*/
+        writeTextNextLine(canvas, LEFT_MARGIN, currentLineY, "Number of Expenses:", getTitleLargeFontBold(), LINE_HEIGHT_TITLE_LARGE);
+        currentLineY = writeTextNextLine(canvas, PAGE_WIDTH/2, currentLineY, String.valueOf(expenseImagesList.size()), getTitleLargeBaseFontLeft(), LINE_HEIGHT_TITLE_LARGE);
+
+        /**print Value of expenses*/
+        double valueOfExpenses = 0;
+        double individualExpense = 0;
+        for (TripData tripData : tripDataMap.values()) {
+            individualExpense = tripData.getExpensesSum();
+            valueOfExpenses += individualExpense;
+        }
+        writeTextNextLine(canvas, LEFT_MARGIN, currentLineY, "Value of Expenses:", getTitleLargeFontBold(), LINE_HEIGHT_TITLE_LARGE);
+        currentLineY = writeTextNextLine(canvas, PAGE_WIDTH/2, currentLineY, String.valueOf(df2.format(valueOfExpenses)), getTitleLargeBaseFontLeft(), LINE_HEIGHT_TITLE_LARGE);
+
+        /**End face page print
+         * Get name from UserSharedPreferences*/
+        pref = SendReport.this.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        /**Get fields values to Strings*/
+        final String pName = pref.getString("name", "");
+
+        currentLineY = currentLineY + 340;
+        currentLineY = writeTextNextLine(canvas, PAGE_WIDTH/2, currentLineY, "Generated at " + dateTimeNow, getTitleFontItalic(), 20);
+        writeTextNextLine(canvas, PAGE_WIDTH/2, currentLineY, "From " + pName, getTitleFontItalic(), 20);
+        /** Finish a page*/
+        pdfDocument.finishPage(myPage);
+
+// Here finish is the face page of the app
+
+
+
+        /**Loop to print trips data*/
         for (int pageTripDetails = 0; pageTripDetails < totalTripPages; pageTripDetails++)
         {
             /**Create packages with maximum number of trips to be printed in loop*/
@@ -416,13 +515,13 @@ public class SendReport extends Login {
             List<TripData> tripDataListToPrint = getValuesInRange(tripDataMap, tripListIndexStart,  tripListIndexEnd);
 
             /**Set start page*/
-            PdfDocument.Page myPage = pdfDocument.startPage(myPageInfo);
+            myPage = pdfDocument.startPage(myPageInfo);
 
             /** create variable for canvas*/
-            Canvas canvas = myPage.getCanvas();
+            canvas = myPage.getCanvas();
 
             /**Prints title of the page*/
-            int currentLineY = intialCurrentLineY;
+            currentLineY = intialCurrentLineY;
             currentLineY = writeTextNextLine(canvas, PAGE_WIDTH/2, currentLineY, "TRIPTRACKER APP REPORT - TRIP DETAILS", getTitleFontBold(), LINE_HEIGHT_TITLE);
             currentLineY = writeTextNextLine(canvas, PAGE_WIDTH/2, currentLineY, "Dates from " + startDate + " to " + endDate, getTitleFontItalic(), LINE_HEIGHT_TITLE);
             currentLineY = writeLine(canvas, currentLineY);
@@ -433,6 +532,7 @@ public class SendReport extends Login {
                 currentLineY = writeTrip(tripData, canvas, currentLineY);
                 currentLineY = writeLineBetweenTrips(canvas, currentLineY);
             }
+
             /**Footer of the page*/
             writeFooter(canvas, pageTripDetails + 1 , totalPages);
 
@@ -454,16 +554,17 @@ public class SendReport extends Login {
             List<Pair<Pair<String, String>, Bitmap>>  expenseListToPrint = expenseImagesList.subList(expenseListIndexStart,  expenseListIndexEnd);
 
             /**Set start page*/
-            PdfDocument.Page myPage = pdfDocument.startPage(myPageInfo);
+            myPage = pdfDocument.startPage(myPageInfo);
 
             /** create variable for canvas*/
-            Canvas canvas = myPage.getCanvas();
+            canvas = myPage.getCanvas();
 
             /**Prints title of the page*/
-            int currentLineY = intialCurrentLineY;
+            currentLineY = intialCurrentLineY;
             currentLineY = writeTextNextLine(canvas, PAGE_WIDTH/2, currentLineY, "TRIPTRACKER APP REPORT - TRIP EXPENSES", getTitleFontBold(), LINE_HEIGHT_TITLE);
             currentLineY = writeTextNextLine(canvas, PAGE_WIDTH/2, currentLineY, "From: " + startDate + " To: " + endDate, getTitleFontItalic(), LINE_HEIGHT_TITLE);
             currentLineY = writeLine(canvas, currentLineY);
+
             /**Loop to print images in packages*/
             for (Pair<Pair<String, String>, Bitmap> expense : expenseListToPrint)
             {
@@ -477,8 +578,9 @@ public class SendReport extends Login {
                 Bitmap bitmap = expense.second;
                 canvas.drawBitmap(bitmap, 25, currentLineY, new Paint());
                 writeExpenseData(tripData, expenseData, canvas, currentLineY);
-                currentLineY += EXPENSIVE_HEIGHT + 25;
+                currentLineY += EXPENSIVE_HEIGHT + 15;
             }
+
             /** Print Footer page*/
             writeFooter(canvas, pageExpense + totalTripPages + 1 , totalPages);
 
@@ -488,6 +590,7 @@ public class SendReport extends Login {
             /**Set index to next image to be printed*/
             expenseListIndexStart += NUMBER_EXPENSES_PER_PAGE;
         }
+
         /**Create document and save*/
         File report  = createPdfDocument(dateTimeNow, pdfDocument);
 
@@ -533,17 +636,19 @@ public class SendReport extends Login {
     {
         /**Get current time*/
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String dateTimeNow = sdf.format(calendar.getTime());
 
+
         /**Set current line to the needed position down to top*/
-        int currentLineY = PAGE_HEIGHT - 40;
+        int currentLineY = PAGE_HEIGHT - 60;
         currentLineY = writeLine(canvas, currentLineY);
         currentLineY += 10;
         /**Draw line to separate footer from content*/
         canvas.drawText(dateTimeNow, 25, currentLineY, getFooterFontLeft());
         canvas.drawText("Page " + currentPage + " of " + totalPage, PAGE_WIDTH - 50, currentLineY, getFooterFontRight());
     }
+
 
     /**Method to draw a line on top and bottom of the page
      * @param canvas area of the page
@@ -598,25 +703,39 @@ public class SendReport extends Login {
         int startX = 25;
         /**Set margin at the middle of the page*/
         int middleX = PAGE_WIDTH/2;
+        int column1 = PAGE_WIDTH/5;
+        int column2 = 550;
 
         /**Set the line to be printed line by line*/
-        currentLineY = writeTextNextLine(canvas, startX, currentLineY, "Date: " + tripData.date , getFont(), LINE_HEIGHT_TEXT);
-        currentLineY = writeTextNextLine(canvas, startX, currentLineY, "Destination: " + tripData.destination , getFont(), LINE_HEIGHT_TEXT);
-        currentLineY = writeTextNextLine(canvas, startX, currentLineY, "User: " + tripData.name , getFont(), LINE_HEIGHT_TEXT);
+        currentLineY = writeTextNextLine(canvas, startX, currentLineY, "Date: ", getFont(), LINE_HEIGHT_TEXT);
+        writeTextNextLine(canvas, column1, currentLineY, tripData.date, getFont(), 0);
+        currentLineY = writeTextNextLine(canvas, startX, currentLineY, "Destination: " , getFont(), LINE_HEIGHT_TEXT);
+        writeTextNextLine(canvas, column1, currentLineY, tripData.destination, getFont(), 0);
+        currentLineY = writeTextNextLine(canvas, startX, currentLineY, "Driver: ", getFont(), LINE_HEIGHT_TEXT);
+        writeTextNextLine(canvas, column1, currentLineY, tripData.name, getFont(), 0);
         /**Set the line to be printed line by line*/
-        writeTextNextLine(canvas, startX, currentLineY, "Company: " + tripData.company , getFont(), LINE_HEIGHT_TEXT);
-        currentLineY = writeTextNextLine(canvas, middleX, currentLineY, "Car reference: " + tripData.carRef , getFont(), LINE_HEIGHT_TEXT);
+        currentLineY = writeTextNextLine(canvas, startX, currentLineY, "Company: ", getFont(), LINE_HEIGHT_TEXT);
+        writeTextNextLine(canvas, column1, currentLineY, tripData.company, getFont(), 0);
+        writeTextNextLine(canvas, middleX, currentLineY, "Car reference: ", getFont(), 0);
+        writeTextNextLine(canvas, column2, currentLineY, tripData.carRef, getFont(), 0);
         /**Set the line to be printed line by line*/
-        writeTextNextLine(canvas, startX, currentLineY, "Distance: " + tripData.distance + " km", getFont(), LINE_HEIGHT_TEXT);
-        currentLineY = writeTextNextLine(canvas, middleX, currentLineY, "Autonomy: " + tripData.kml + " km", getFont(), LINE_HEIGHT_TEXT);
+        currentLineY = writeTextNextLine(canvas, startX, currentLineY, "Distance: " , getFont(), LINE_HEIGHT_TEXT);
+        writeTextNextLine(canvas, column1, currentLineY, String.valueOf(df3.format(Double.parseDouble(tripData.distance)))+ " km", getFont(), 0);
+        writeTextNextLine(canvas, middleX, currentLineY, "Autonomy: ", getFont(), 0);
+        writeTextNextLine(canvas, column2, currentLineY, tripData.kml, getFont(), 0);
         /**Set the line to be printed line by line*/
-        writeTextNextLine(canvas, startX, currentLineY, "Fuel: " + tripData.fuel , getFont(), LINE_HEIGHT_TEXT);
-        currentLineY = writeTextNextLine(canvas, middleX, currentLineY, "Consumed fuel: " + tripData.getConsumedFuel() + " Liter(s)", getFont(), LINE_HEIGHT_TEXT);
+        currentLineY = writeTextNextLine(canvas, startX, currentLineY, "Fuel: " + tripData.fuel , getFont(), LINE_HEIGHT_TEXT);
+        writeTextNextLine(canvas, column1, currentLineY, tripData.fuel, getFont(), 0);
+        currentLineY = writeTextNextLine(canvas, middleX, currentLineY, "Consumed fuel: ", getFont(), 0);
+        writeTextNextLine(canvas, column2, currentLineY, String.valueOf(df3.format(tripData.getConsumedFuel())) + " Liter(s)", getFont(), 0);
 
         /**Set the line to be printed line by line*/
-        writeTextNextLine(canvas, startX, currentLineY, "Expenses count: " + tripData.getExpensesCount() , getFont(), LINE_HEIGHT_TEXT);
-        currentLineY = writeTextNextLine(canvas, middleX, currentLineY, "Expenses total: " + df.format(tripData.getExpensesSum()) , getFont(), LINE_HEIGHT_TEXT);
-        currentLineY = writeTextNextLine(canvas, startX, currentLineY, tripData.getExpenseInfo(), getFontItalic(), LINE_HEIGHT_TEXT);
+        currentLineY = writeTextNextLine(canvas, startX, currentLineY, "Expenses count: " , getFont(), LINE_HEIGHT_TEXT);
+        writeTextNextLine(canvas, column1, currentLineY, String.valueOf(tripData.getExpensesCount()), getFont(), 0);
+        writeTextNextLine(canvas, middleX, currentLineY, "Expenses total: ", getFont(), 0);
+        writeTextNextLine(canvas, column2, currentLineY, String.valueOf(tripData.getExpensesSum()), getFont(), 0);
+        currentLineY = writeTextNextLine(canvas, startX, currentLineY, tripData.getExpenseInfo(), getTitleFontItalicRED(),LINE_HEIGHT_TEXT);
+
 
         /**return pointer*/
         return currentLineY;
@@ -640,20 +759,95 @@ public class SendReport extends Login {
         writeTextNextLine(canvas, startX, currentLineY, "Expense description: " + expenseData.description , getFont(), LINE_HEIGHT_TEXT);
     }
 
+
+    /**method to deliver a number with 2 decimal Format*/
+    private static DecimalFormat df2 = new DecimalFormat("#.##");
+    private static DecimalFormat df3 = new DecimalFormat("#.###");
+    /**method tp convert String date in DATE format
+     * @param date date to be converted and returned
+     */
+    private Date changeDateFormat(String date) {
+        //change date partern
+        final String OLD_FORMAT = "yyyy-MM-dd";
+        final String NEW_FORMAT = "dd/MM/yyyy";
+
+        String oldDateString = date;
+        String newDateString;
+
+        SimpleDateFormat sdft = new SimpleDateFormat(OLD_FORMAT);
+        Date d = null;
+        try {
+            d = sdft.parse(oldDateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        sdft.applyPattern(NEW_FORMAT);
+        newDateString = sdft.format(d);
+        Date outDate = null;
+        try {
+            outDate = sdft.parse(newDateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return outDate;
+    }
+
+
+    /**Method to set title font Bold*/
+    private Paint getTitleLargeBold()
+    {
+        Paint title = getTitleLargeBaseFont();
+        title.setTypeface(Typeface.create(Typeface.DEFAULT_BOLD, Typeface.BOLD));
+        return title;
+    }
+
+
     /**Method to set title font Bold*/
     private Paint getTitleFontBold()
     {
         Paint title = getTitleBaseFont();
         title.setTypeface(Typeface.create(Typeface.DEFAULT_BOLD, Typeface.BOLD));
-
         return title;
     }
+
+    /**Method to set title font Bold*/
+    private Paint getTitleLargeFontBold()
+    {
+        Paint title = getTitleLargeBaseFontLeft();
+        title.setTypeface(Typeface.create(Typeface.DEFAULT_BOLD, Typeface.BOLD));
+        return title;
+    }
+
     /**Method to set title font Italic*/
     private Paint getTitleFontItalic()
     {
         Paint title = getTitleBaseFont();
         title.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.ITALIC));
         return title;
+    }
+    /**Method to set title font Italic*/
+    private Paint getTitleFontItalicRED()
+    {
+        Paint title = getTitleBaseFontLeftRED();
+        title.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.ITALIC));
+        return title;
+    }
+
+    /**Method to set title font Italic*/
+    private Paint getTitleFontItalicLeft()
+    {
+        Paint title = getTitleBaseFontLeft();
+        title.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.ITALIC));
+        return title;
+    }
+
+    /**Method to set title font size and alignment*/
+    private Paint getTitleBaseFontLeft()
+    {
+        Paint font = getBaseFont();
+        font.setTextSize(22);
+        font.setTextAlign(Paint.Align.LEFT);
+        return font;
     }
 
     /**Method to set title font size and alignment*/
@@ -664,6 +858,37 @@ public class SendReport extends Login {
         font.setTextAlign(Paint.Align.CENTER);
         return font;
     }
+
+
+    /**Method to set title font size and alignment*/
+    private Paint getTitleLargeBaseFont()
+    {
+        Paint font = getBaseFont();
+        font.setTextSize(30);
+        font.setTextAlign(Paint.Align.CENTER);
+        return font;
+    }
+
+    /**Method to set title font size and alignment*/
+    private Paint getTitleLargeBaseFontLeft()
+    {
+        Paint font = getBaseFont();
+        font.setTextSize(30);
+        font.setTextAlign(Paint.Align.LEFT);
+        return font;
+    }
+
+    /**Method to set title font size and alignment*/
+    private Paint getTitleBaseFontLeftRED()
+    {
+        Paint font = getBaseFont();
+        font.setTextSize(15);
+        font.setColor(Color.RED);
+        font.setTextAlign(Paint.Align.LEFT);
+        return font;
+    }
+
+
     /**Method to set body font colour*/
     private Paint getBaseFont()
     {
