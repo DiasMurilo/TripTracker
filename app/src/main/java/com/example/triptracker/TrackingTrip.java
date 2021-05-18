@@ -1,6 +1,7 @@
 package com.example.triptracker;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.widget.Toast;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+
+import androidx.annotation.NonNull;
 
 /** <h1>TrackingTrip: Class to display Google Maps while tracking the trip</h1>
  * <p>This class displays the map while tracking the trip, here user can watch in realtime the route being created <p>
@@ -77,10 +80,19 @@ public class TrackingTrip extends Login {
                 trackingTripToTripFinish.putExtra("distance", df.format(distance));
                 /**Call intent*/
                 startActivity(trackingTripToTripFinish);
-                // Call 6_TRIP_FINISH
             }
         });
 
+    }
+
+    /**Check if user gave the permissions*/
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == 44) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                mMapFragment.getLocationUpdate();
+            }
+        }
     }
 
     /**Method to calculate distance from a array of locations

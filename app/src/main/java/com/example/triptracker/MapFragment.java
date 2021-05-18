@@ -2,6 +2,7 @@ package com.example.triptracker;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -85,38 +86,23 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         return view;
     }
 
-    /**Check if user gave the permissions*/
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == 44) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                getLocationUpdate();
-            }
-        }
-    }
-
     /**Method that check permission and get locations update*/
-    private void getLocationUpdate()
+    public void getLocationUpdate()
     {
-        if (locationManager != null)
-        {
+        if (locationManager != null) {
             /**Check permissions need*/
             if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 /**Check permission for GPS_PROVIDER*/
-                if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
-                {
+                if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                     locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DISTANCE, this);
                 }
                 /**Check permission for NETWORK_PROVIDER*/
                 else if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
                     locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME, MIN_DISTANCE, this);
                 }
-                /**Display to user*/
-                else {
-                    Toast.makeText(getContext(), "No provider enabled.", Toast.LENGTH_SHORT);
-                }
-            } else {
-                /** if not granted ask again*/
+            }
+            else {
+                /** if not granted ask user*/
                 ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
             }
         }

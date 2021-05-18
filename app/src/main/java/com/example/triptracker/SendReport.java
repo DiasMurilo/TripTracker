@@ -667,7 +667,7 @@ public class SendReport extends Login {
      */
     private int writeLineBetweenTrips(Canvas canvas, int y)
     {
-        y += 15;
+        y += 9;
         Paint dashPaint = new Paint();
         dashPaint.setARGB(255, 0, 0, 0);
         dashPaint.setStyle(Paint.Style.STROKE);
@@ -707,10 +707,12 @@ public class SendReport extends Login {
         int column2 = 550;
 
         /**Set the line to be printed line by line*/
-        currentLineY = writeTextNextLine(canvas, startX, currentLineY, "Date: ", getFont(), LINE_HEIGHT_TEXT);
+        currentLineY = writeTextNextLine(canvas, startX, currentLineY, "Date: ", getFont(), 7);
         writeTextNextLine(canvas, column1, currentLineY, tripData.date, getFont(), 0);
         currentLineY = writeTextNextLine(canvas, startX, currentLineY, "Destination: " , getFont(), LINE_HEIGHT_TEXT);
         writeTextNextLine(canvas, column1, currentLineY, tripData.destination, getFont(), 0);
+        currentLineY = writeTextNextLine(canvas, startX, currentLineY, "Reason: " , getFont(), LINE_HEIGHT_TEXT);
+        writeTextNextLine(canvas, column1, currentLineY, tripData.reason, getFont(), 0);
         currentLineY = writeTextNextLine(canvas, startX, currentLineY, "Driver: ", getFont(), LINE_HEIGHT_TEXT);
         writeTextNextLine(canvas, column1, currentLineY, tripData.name, getFont(), 0);
         /**Set the line to be printed line by line*/
@@ -736,7 +738,6 @@ public class SendReport extends Login {
         writeTextNextLine(canvas, column2, currentLineY, String.valueOf(tripData.getExpensesSum()), getFont(), 0);
         currentLineY = writeTextNextLine(canvas, startX, currentLineY, tripData.getExpenseInfo(), getTitleFontItalicRED(),LINE_HEIGHT_TEXT);
 
-
         /**return pointer*/
         return currentLineY;
     }
@@ -758,7 +759,6 @@ public class SendReport extends Login {
         currentLineY = writeTextNextLine(canvas, startX, currentLineY, "Expense value: " + expenseData.value , getFont(), LINE_HEIGHT_TEXT);
         writeTextNextLine(canvas, startX, currentLineY, "Expense description: " + expenseData.description , getFont(), LINE_HEIGHT_TEXT);
     }
-
 
     /**method to deliver a number with 2 decimal Format*/
     private static DecimalFormat df2 = new DecimalFormat("#.##");
@@ -791,7 +791,6 @@ public class SendReport extends Login {
         }
         return outDate;
     }
-
 
     /**Method to set title font Bold*/
     private Paint getTitleLargeBold()
@@ -887,7 +886,6 @@ public class SendReport extends Login {
         font.setTextAlign(Paint.Align.LEFT);
         return font;
     }
-
 
     /**Method to set body font colour*/
     private Paint getBaseFont()

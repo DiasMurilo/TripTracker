@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:adjustViewBounds="true"
-    android:background="@drawable/back">
+    android:background="@drawable/back"
+    app:barrierDirection="left"
+    app:layout_anchorGravity="left">
 
 
     <Button
@@ -45,6 +46,56 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <EditText
+        android:id="@+id/field_Reason"
+        android:layout_width="0dp"
+        android:layout_height="96dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="6dp"
+        android:autofillHints=""
+        android:maxLength="100"
+        android:background="@color/ColorTertiary"
+        android:cursorVisible="true"
+        android:gravity="start"
+        android:hint="@string/reason_"
+        android:inputType="textEmailAddress"
+        android:shadowColor="@color/colorShadow"
+        android:textAlignment="textStart"
+        android:textColor="@color/colorSecondary"
+        android:textColorHint="@color/ColorTertiary"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_max="wrap"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+    <EditText
+        android:id="@+id/field_Destiny"
+        android:layout_width="0dp"
+        android:layout_height="96dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="6dp"
+        android:autofillHints=""
+        android:background="@color/ColorTertiary"
+        android:cursorVisible="true"
+        android:gravity="start"
+        android:hint="@string/destiny"
+        android:inputType="textEmailAddress"
+        android:isScrollContainer="false"
+        android:maxLength="100"
+        android:shadowColor="@color/colorShadow"
+        android:singleLine="false"
+        android:textAlignment="textStart"
+        android:textColor="@color/colorSecondary"
+        android:textColorHint="@color/ColorTertiary"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/field_Reason" />
+
     <TextView
         android:id="@+id/textView10"
         android:layout_width="323dp"
@@ -76,7 +127,7 @@
         android:layout_width="141dp"
         android:layout_height="31dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:text="@string/destiny"
         android:textColor="@color/colorPrimary"
         android:textSize="24sp"
@@ -204,54 +255,5 @@
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView18" />
-
-    <EditText
-        android:id="@+id/field_Reason"
-        android:layout_width="0dp"
-        android:layout_height="64dp"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="6dp"
-        android:autofillHints=""
-        android:background="@color/ColorTertiary"
-        android:cursorVisible="true"
-        android:ems="10"
-        android:gravity="start"
-        android:hint="@string/email"
-        android:inputType="textEmailAddress"
-        android:isScrollContainer="false"
-        android:shadowColor="@color/colorShadow"
-        android:textAlignment="textStart"
-        android:textColor="@color/colorSecondary"
-        android:textColorHint="@color/ColorTertiary"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView10" />
-
-    <EditText
-        android:id="@+id/field_Destiny"
-        android:layout_width="0dp"
-        android:layout_height="96dp"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="6dp"
-        android:autofillHints=""
-        android:background="@color/ColorTertiary"
-        android:cursorVisible="true"
-        android:ems="10"
-        android:gravity="start"
-        android:hint="@string/email"
-        android:inputType="textEmailAddress"
-        android:isScrollContainer="false"
-        android:shadowColor="@color/colorShadow"
-        android:textAlignment="textStart"
-        android:textColor="@color/colorSecondary"
-        android:textColorHint="@color/ColorTertiary"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/field_Reason" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

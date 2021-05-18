@@ -2,7 +2,9 @@ package com.example.triptracker;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -42,6 +44,16 @@ public class StartTrip extends Login {
 
         /** Updates fields with previous trip information*/
         updateFieldsStartTrip();
+
+        /** Make text multiline*/
+        mFieldReason.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+        mFieldReason.setSingleLine(false);
+        mFieldReason.setImeOptions(EditorInfo.IME_FLAG_NO_ENTER_ACTION);
+
+        mFieldDestiny.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+        mFieldDestiny.setSingleLine(false);
+        mFieldDestiny.setImeOptions(EditorInfo.IME_FLAG_NO_ENTER_ACTION);
+
 
         /**On CLick send user to Settings*/
         mSettingsBefore.setOnClickListener(new View.OnClickListener() {

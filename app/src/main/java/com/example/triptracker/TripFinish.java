@@ -1,6 +1,7 @@
 package com.example.triptracker;
 
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -15,7 +16,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Calendar;
 
+
 import androidx.annotation.NonNull;
+import androidx.core.text.HtmlCompat;
 
 /** <h1>FinishTrip: Class to let user check data before upload to the Realtime Database Firebase</h1>
  * <p>This class displays trip information to user and ask to save or cancel the upload of the trip.<p>
@@ -62,19 +65,21 @@ public class TripFinish extends Login {
         final String pDestiny = pref.getString("tripDestiny", "");
         final String pDistance = getIntent().getExtras().get("distance").toString();
 
+
+
         /**Creates String and put trip info & Settings values in it*/
         String newData =
-                "Name:" + pName + "\n" +
-                "Reason: " + pReason + "\n" +
-                "Destination: " + pDestiny + "\n" +
-                "Company: " + pCompany + "\n" +
-                "Car Reference: " + pCarRef + "\n" +
-                "Autonomy: " + pkml + " km/l" + "\n" +
-                "Fuel: " + pFuel + "\n" +
-                "Distance: " + pDistance + " km";
+                "<b>"   +   "Driver: "          +   "</b>"  +   pName       +   "<br>"    +
+                "<b>"   +   "Reason: "          +   "</b>"  +   pReason     +   "<br>"    +
+                "<b>"   +   "Destination: "     +   "</b>"  +   pDestiny    +   "<br>"    +
+                "<b>"   +   "Company: "         +   "</b>"  +   pCompany    +   "<br>"    +
+                "<b>"   +   "Car Reference: "   +   "</b>"  +   pCarRef     +   "<br>"    +
+                "<b>"   +   "Autonomy: "        +   "</b>"  +   pkml        +   " km/l" + "<br>" +
+                "<b>"   +   "Fuel: "            +   "</b>"  +   pFuel       +   "<br>"    +
+                "<b>"   +   "Distance: "        +   "</b>"  +   pDistance   +   " km"   ;
 
         /**Display trip info & Settings values to the user*/
-        mFinishedTrip.setText(newData);
+        mFinishedTrip.setText(Html.fromHtml(newData));
 
         /**Set On CLick Listener in the CANCEL button*/
         mCancelFinish.setOnClickListener(new View.OnClickListener() {
