@@ -32,6 +32,7 @@ public class TrackingTrip extends Login {
     /**View element MapFragment*/
     MapFragment mMapFragment;
 
+    private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
